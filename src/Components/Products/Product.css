@@ -1,0 +1,21 @@
+.cardMain{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.card{margin: 20px 0 !important;}
+.addcart{margin: 10px 0 !important;
+color: black !important;
+border: 1px solid black !important;
+}
+.addcart:hover{
+    background-color: black !important;
+    color:white !important;
+}
+.cartMain{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    width: 600px;
+}
