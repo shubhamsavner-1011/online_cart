@@ -30,11 +30,6 @@ export const Products = () => {
     }, [])
 
   const handleAdd = (element) =>{
-    console.log('ele>>>',{...element.id});
-{element.id === {...element.id}
-? console.log('exist')
-:console.log('added')
-}
 dispatch(add(element))
   }
 

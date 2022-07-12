@@ -9,7 +9,7 @@ export const CartSlice = createSlice({
     add(state,action){
       const itemIndex = state.findIndex((item)=>item.id===action.payload.id)
       if(itemIndex >= 0){
-       return state[itemIndex].cartQuantity +=1;
+       state[itemIndex].cartQuantity +=1;
       }
       else {
         const tempProduct = {...action.payload, cartQuantity:1}
