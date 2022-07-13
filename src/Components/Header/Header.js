@@ -1,5 +1,5 @@
 import React from 'react';
-import { alpha, makeStyles } from '@material-ui/core/styles';
+import {makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -9,11 +9,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useSelector } from 'react-redux';
 
@@ -26,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     display: 'none',
-    margin: '0 10px', 
+    margin: '0 10px',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
@@ -36,9 +33,9 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(2),
     },
   },
-  link1:{
-    textDecoration:'none',
-    color:'white'
+  link1: {
+    textDecoration: 'none',
+    color: 'white'
   },
   sectionDesktop: {
     display: 'none',
@@ -52,21 +49,19 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
-  nav:{
-    backgroundColor:'black'
+  nav: {
+    backgroundColor: 'black'
   }
 }));
 
-export default function Header () {
+export default function Header() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
- const item = useSelector((state)=>state.cart)
-
+  const item = useSelector((state) => state.cart.cartItem)
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -111,8 +106,6 @@ export default function Header () {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-     
-      
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -139,33 +132,33 @@ export default function Header () {
           >
             <MenuIcon />
             <Typography className={classes.title} variant="h6" noWrap>
-            Snapdeal
-           </Typography>
-            </IconButton>
+              Snapdeal
+            </Typography>
+          </IconButton>
 
-          
+
           <div className={classes.search}>
             <div className={classes.searchIcon}>
-            <Typography className={classes.link}>
-            <Link color="inherit" to='/' className={classes.link1}>
-              Home
-            </Link>
-            <Link  color="inherit" to='/cart' className={classes.link1}>
-              Cart
-            </Link>
-          </Typography>
+              <Typography className={classes.link}>
+                <Link color="inherit" to='/' className={classes.link1}>
+                  Home
+                </Link>
+                <Link color="inherit" to='/cart' className={classes.link1}>
+                  Cart
+                </Link>
+              </Typography>
             </div>
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
 
-          <Link  color="inherit" to='/cart' className={classes.link1}>
-          <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={item.length} color="secondary">
-            <AddShoppingCartIcon/>
-          </Badge>
-        </IconButton>
-        </Link>
+            <Link color="inherit" to='/cart' className={classes.link1}>
+              <IconButton aria-label="show 4 new mails" color="inherit">
+                <Badge badgeContent={item.length} color="secondary">
+                  <AddShoppingCartIcon />
+                </Badge>
+              </IconButton>
+            </Link>
 
             <IconButton
               edge="end"
