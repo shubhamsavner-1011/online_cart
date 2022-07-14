@@ -45,11 +45,22 @@ export const CartSlice = createSlice({
         state.cartItem = state.cartItem.filter(item=>item.id!==action.payload)
       }
     },
-    
+    TotalAmount: (state,action) =>{
+      let quantity = 0;
+      let total = 0;
+   state.cartItem.map((item)=>{
+      quantity+= item.cartQuantity
+      let price = item.price
+      total += item.cartQuantity*price
+    console.log(total,'TotalcartAmnt');
+   });
+   state.quantity = quantity
+   state.total = total
+    }
     
   },
 })
 
-export const { add, AllClear, remove,increment, decrement} = CartSlice.actions
+export const { add, AllClear, remove,increment, decrement,TotalAmount} = CartSlice.actions
 
 export default CartSlice.reducer

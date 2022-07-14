@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   nav: {
-    backgroundColor: 'black'
+    backgroundColor: '#e40046'
   }
 }));
 
@@ -143,6 +143,10 @@ export default function Header() {
                 <Link color="inherit" to='/' className={classes.link1}>
                   Home
                 </Link>
+
+                <Link color="inherit" to='/product' className={classes.link1}>
+                Product
+               </Link>
                 <Link color="inherit" to='/cart' className={classes.link1}>
                   Cart
                 </Link>

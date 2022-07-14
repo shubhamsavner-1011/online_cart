@@ -8,11 +8,15 @@ import Typography from '@mui/material/Typography';
 import { useDispatch } from 'react-redux';
 import { add } from '../../Store/CartSlice';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Rating from '@mui/material/Rating';
 import axios from 'axios';
 import '../Products/Product.css'
+import { Box } from '@mui/material';
 
 
 export const Products = () => {
+  const [value, setValue] = React.useState()
+  console.log(value,'rating');
   const [product, setProduct] = useState()
   const dispatch = useDispatch()
 
@@ -44,7 +48,8 @@ export const Products = () => {
 
     else {
       return (
-
+        <>
+        <div className='heading'>Products</div>
         <div className='cardDiv'>
           {product && product.map(item => (
             <Card key={item.id} sx={{ width: 345 }} className='card'>
@@ -66,12 +71,27 @@ export const Products = () => {
                   $ {item.price}
                 </Typography>
               </CardContent>
+              <Box    className='rating'
+              sx={{
+                '& > legend': { mt: 2 },
+              }}
+            >
+              <Rating
+                name="simple-controlled"
+             
+                value={item.rating.rate}
+                onChange={() => {
+                  setValue(item.rating.rate);
+                }}
+              />
+              </Box>
               <CardActions sx={{ justifyContent: 'center' }}>
                 <Button variant='outlined' className='addcart' onClick={() => handleAdd(item)}>Add to cart</Button>
               </CardActions>
             </Card>
           ))}
         </div>
+        </>
       )
     }
   }
