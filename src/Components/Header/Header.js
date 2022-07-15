@@ -1,5 +1,6 @@
 import React from 'react';
 import {makeStyles } from '@material-ui/core/styles';
+import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,7 +13,11 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { Link } from 'react-router-dom'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import { useSelector } from 'react-redux';
+import SearchIcon from '@mui/icons-material/Search';
+import InputBase from '@mui/material/InputBase';
+import { useSelector,useDispatch } from 'react-redux';
+import { login,logout, selectUser } from '../../Store/UserSlice';
+
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -35,7 +40,16 @@ const useStyles = makeStyles((theme) => ({
   },
   link1: {
     textDecoration: 'none',
-    color: 'white'
+    color: 'white',
+    margin:'0 20px'
+  },
+  link2:{
+    textDecoration:'none',
+    color:'white'
+  },
+  link3:{
+    textDecoration:'none',
+    color:'black'
   },
   sectionDesktop: {
     display: 'none',
@@ -54,11 +68,52 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+}));
 export default function Header() {
+  const user = useSelector(selectUser)
+  const dispatch = useDispatch()
+  console.log(user,'user'); 
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const item = useSelector((state) => state.cart.cartItem)
@@ -79,6 +134,14 @@ export default function Header() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogin = (event) =>{
+      dispatch(login(event))
+  }
+
+  const handleLogout = (event) =>{
+    dispatch(logout())
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -90,8 +153,28 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+
+
+      {user==null?  
+        <MenuItem onClick={handleMenuClose}>
+        <Link to='/login' className={classes.link3} onClick={(e) => handleLogin(e)}>Login</Link>    
+        </MenuItem>
+        :   
+        <>
+        <MenuItem onClick={handleMenuClose}>
+        <Link to='/profile' className={classes.link3}> Profile </Link>
+        </MenuItem>  
+        <MenuItem onClick={handleMenuClose}>
+        <Link to='/' className={classes.link3} onClick={(e) => handleLogout(e)}>Logout</Link>  
+        </MenuItem>  
+        </>    
+        
+      }
+     
+      
+      <MenuItem onClick={handleMenuClose}>
+      <Link to='/signup' className={classes.link3}> SignUp </Link>
+      </MenuItem>
     </Menu>
   );
 
@@ -138,7 +221,7 @@ export default function Header() {
 
 
           <div className={classes.search}>
-            <div className={classes.searchIcon}>
+            <div className='linkMain'>
               <Typography className={classes.link}>
                 <Link color="inherit" to='/' className={classes.link1}>
                   Home
@@ -151,12 +234,25 @@ export default function Header() {
                   Cart
                 </Link>
               </Typography>
+
+              <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+                className='searchInput'
+              />
+            </Search>
             </div>
+           
           </div>
+
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
 
-            <Link color="inherit" to='/cart' className={classes.link1}>
+            <Link color="inherit" to='/cart' className={classes.link2}>
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={item.length} color="secondary">
                   <AddShoppingCartIcon />
@@ -193,3 +289,6 @@ export default function Header() {
     </div>
   );
 }
+
+
+

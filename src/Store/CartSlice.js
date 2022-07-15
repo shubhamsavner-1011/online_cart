@@ -52,7 +52,6 @@ export const CartSlice = createSlice({
       quantity+= item.cartQuantity
       let price = item.price
       total += item.cartQuantity*price
-    console.log(total,'TotalcartAmnt');
    });
    state.quantity = quantity
    state.total = total

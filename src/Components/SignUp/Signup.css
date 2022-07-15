@@ -1,0 +1,92 @@
+.centerDiv{justify-content: center;}
+.head{margin: 20px 0;
+color: green;
+text-align: center;
+font-size: 25px;
+font-family: 'Roboto', sans-serif;
+}
+.name{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin:20px 0;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+.field{
+    margin: 10px 0;
+    padding: 10px 5px;
+    border-radius: 5px;
+    border: 1px solid gray;
+   
+}
+.label{margin: 10px 0;}
+.error{
+    color: red;
+    font-size: 13px;
+    font-family: roboto;
+    margin-top: 5px !important;
+}
+.btnMain{margin: auto;}
+.submit{
+    background-color: orange;
+    color:black;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    width: 200px;
+    cursor: pointer;
+}
+.submit:hover{
+background-color: green;
+color:white;
+cursor: pointer;
+
+}
+.check{margin:20px 0}
+.dropdown{width: 200px;
+padding: 8px;
+margin: 20px 0px;
+}
+.textField{width: 500px }
+.subBtn{text-align: center;}
+.subBtn1{background-color: orange !important;
+color:black !important;
+width: 200px;
+margin:30px !important;
+}
+/* form material */
+.formMui{
+    justify-content: center;
+}
+.formMain{padding: 20px;}
+.textFiled{margin:10px 0 !important }
+.subBtn1:hover{
+    background-color: green !important;
+    cursor: pointer;
+    color:white !important;
+}
+.heading{margin: 30px 0 0 0;
+    color: green;
+    text-align: center;
+    font-size: 25px;
+    font-family: 'Roboto', sans-serif;
+    }
+.checkboxDiv{
+   margin-top: 20px!important;
+}
+.checkbox{
+    padding: 0 !important;
+}
+.profileHead{
+    text-align: center;
+    font-weight: 600;
+    font-family: roboto;
+    font-size: 20px;
+    color: grey;
+    text-transform: uppercase;
+    font-family: 'Titillium Web', sans-serif;
+}

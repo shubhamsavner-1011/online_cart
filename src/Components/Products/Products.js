@@ -49,7 +49,7 @@ export const Products = () => {
     else {
       return (
         <>
-        <div className='heading'>Products</div>
+        <div className='ProductHead'>Products</div>
         <div className='cardDiv'>
           {product && product.map(item => (
             <Card key={item.id} sx={{ width: 345 }} className='card'>

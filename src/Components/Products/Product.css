@@ -16,13 +16,13 @@ border: 1px solid black !important;
     color:white !important;
 }
 .rating{text-align: center !important;}
-
-.heading{text-align: center;
-    margin: 10px 0;
+.ProductHead{
+    text-align: center;
+    margin: 30px ;
     font-weight: 600;
     font-family: roboto;
     font-size: 25px;
     color: #333;
     text-transform: uppercase;
     font-family: 'Titillium Web', sans-serif;
-    }
+}

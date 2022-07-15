@@ -1,0 +1,13 @@
+.homeHead{
+    margin: 30px ;
+    font-weight: 600;
+    font-family: roboto;
+    font-size: 20px;
+    color: #333;
+    text-transform: uppercase;
+    font-family: 'Titillium Web', sans-serif;
+    }
+.slider{margin-top: 30px !important}
+.linkMain{display: flex;align-items: center;}
+.searchInput{width: 54ch !important;}
+.divider{width: 80%;}
