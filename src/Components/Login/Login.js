@@ -1,4 +1,4 @@
-import React from 'react';
+import react,{useState} from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Button from '@material-ui/core/Button';
@@ -10,6 +10,8 @@ import '../SignUp/Signup.css'
 import { useDispatch } from 'react-redux';
 import { login } from '../../Store/UserSlice';
 import { useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../Firebase';
 
 
 const validationSchema = yup.object({
@@ -28,7 +30,8 @@ const validationSchema = yup.object({
 export const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch()
-
+    const [buttonDisabled,setButtonDisabled] = useState(false);
+    const [err,setError] = useState()
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -36,11 +39,15 @@ export const Login = () => {
             terms:'',
         },
         validationSchema: validationSchema,
-        onSubmit: (values) => {
+        onSubmit: (values) => {         
             dispatch(login(values))
+            setButtonDisabled(true)
             alert(JSON.stringify(values, null, 4));
             console.log(values, 'Login value');
             navigate('/')
+            createUserWithEmailAndPassword(auth,values.email,values.password).then(res =>{
+                setButtonDisabled(false)
+            }).catch(err =>{console.log(err,'error')})
         },
     });
   return (
@@ -101,7 +108,7 @@ export const Login = () => {
                 </div>
                 
                 <div className='subBtn'>
-                    <Button variant="contained"  className="subBtn1" type="submit">
+                    <Button variant="contained"  className="subBtn1" type="submit" disabled={buttonDisabled}>
                         LOGIN
                     </Button>
                 </div>
