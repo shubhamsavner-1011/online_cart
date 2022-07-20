@@ -3,7 +3,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import poster from '../../images/discount.jpg';
 import sale from '../../images/sale.jpg'
-import '../Slider/Slider.css'
 import Slider from "react-slick";
 
 const images = [
@@ -38,13 +37,7 @@ export const ProductSlider = () => {
               <img
                 src={step.photo}
                 alt={step.label}
-                style={{
-                  height: "400px",
-                  display: "block",
-                  overflow: "hidden",
-                  margin:'auto',
-                  width: "80%"
-                }}
+               className='sliderImg'
               />
             </div>
           ))}

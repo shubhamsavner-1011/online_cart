@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Button from '@material-ui/core/Button';
@@ -16,52 +16,65 @@ import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import '../SignUp/Signup.css'
 import { Grid } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux';
-import { signup } from '../../Store/UserSlice';
 import { useNavigate } from 'react-router-dom';
-
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from '../../Firebase/Firebase';
+import { Alert } from '@material-ui/lab';
+import { DASHBOARD_PAGE } from '../Routing/RoutePath';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
 const validationSchema = yup.object({
+    name: yup
+    .string('Enter your name').nullable(true)
+    .required('Email is required'),
     email: yup
-        .string('Enter your email')
+        .string('Enter your email').nullable(true)
         .email('Enter a valid email')
         .required('Email is required'),
     password: yup
-        .string('Enter your password')
+        .string('Enter your password').nullable(true)
         .min(8, 'Password should be of minimum 8 characters length')
         .required('Password is required'),
-    phone: yup.string()
+    phone: yup.string().nullable(true)
         .matches(phoneRegExp, 'Phone number is not valid')
         .min(10, 'minimum 10 character')
         .max(10, 'please enter valid number')
         .required('Number required'),
-    gender: yup.string().required('Required'),
-    age: yup.string().required("Select your age category"),
-    terms: yup.string().required("Select terms & condition"),
+    gender: yup.string().nullable(true).required('Required'),
+    age: yup.string().nullable(true).required("Select your age category"),
+    terms: yup.string().nullable(true).required("Select terms & condition"),
 });
 
 
 export const SignUp = () => {
-    const dispatch = useDispatch()
+    const [error,setError] = useState();
     const navigate = useNavigate()
 
     const formik = useFormik({
         initialValues: {
-            email: '',
-            password: '',
-            age: '',
-            gender: '',
-            phone: '',
-            terms: '',
+            name:null,
+            email: null,
+            password: null,
+            age: null,
+            gender: null,
+            phone: null,
+            terms: null,
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            dispatch((signup(values)))
-            navigate('/')
-            alert(JSON.stringify(values, null, 4));
-            console.log(values, 'valuee');
+            createUserWithEmailAndPassword(auth, values.email, values.password,values.name).then(async res => {
+                const user = res.user;
+               await updateProfile(user,{
+                    displayName:values.name
+                })
+                navigate(DASHBOARD_PAGE)
+            }).catch(error => {
+                const errorCode = error.code
+                console.log(errorCode,'>>>>>Error')
+                const errorMessage = error.message;
+                setError(errorCode)
+            })
+          
         },
     });
     return (
@@ -81,6 +94,17 @@ export const SignUp = () => {
                 <Paper elevation={3} >
                     <h3 className='ProductHead'>Sign-Up</h3>
                     <form onSubmit={formik.handleSubmit} className="formMain">
+                        <TextField
+                            fullWidth
+                            id="name"
+                            name="name"
+                            label="name"
+                            className='textFiled'
+                            value={formik.values.name}
+                            onChange={formik.handleChange}
+                            error={formik.touched.name && Boolean(formik.errors.name)}
+                            helperText={formik.touched.name && formik.errors.name}
+                        />
                         <TextField
                             fullWidth
                             id="email"
@@ -105,6 +129,7 @@ export const SignUp = () => {
                             helperText={formik.touched.password && formik.errors.password}
                         />
 
+                        
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                                 <FormControl fullWidth>
@@ -140,7 +165,7 @@ export const SignUp = () => {
                                     id="phone"
                                     name="phone"
                                     label="Phone"
-                                    type="text"
+                                    type="number"
                                     className='textFiled'
                                     value={formik.values.phone}
                                     onChange={formik.handleChange}
@@ -186,7 +211,11 @@ export const SignUp = () => {
                                 ''
                             }
                         </div>
-
+                        {error?
+                            <Alert variant="outlined" severity="error" className='alert'>
+                                {error} !!
+                            </Alert>
+                            : ""}
                         <div className='subBtn'>
                             <Button variant="contained" className="subBtn1" type="submit">
                                 SIGN UP

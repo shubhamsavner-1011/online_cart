@@ -1,59 +1,55 @@
 import { Grid } from '@mui/material'
 import React from 'react'
 import '../Home/Home.css'
-import {ProductSlider} from '../Slider/ProductSlider'
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
+import { ProductSlider } from '../Slider/ProductSlider'
+import { makeStyles } from '@material-ui/core/styles';
 
+import Alert from '@material-ui/lab/Alert';
+import CheckIcon from '@material-ui/icons/Check';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import { category, CategoryList } from './CategoryList';
+import { Section1 } from './Section1';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '35%',
+    marginTop:'20px '
+  },
+}));
 
-
-export const Home = () => {
+export const Home = (props) => {
+  const classes = useStyles();
+  const { userName } = props
+  console.log(userName, 'nameeeeee>>>>')
   return (
     <>
-
-  <Grid container spacing={2} sx={{justifyContent:'space-around'}}>
-  <Grid item xs={3}>
-  <div className='homeHead'>TOP CATEGORIES</div>
-  <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-  <nav aria-label="secondary mailbox folders">
-    <List>
-      <ListItem disablePadding>
-        <ListItemButton>
-          <ListItemText primary="ELECTRONICS" />
-        </ListItemButton>
-      </ListItem>
-      <Divider className='divider'/>
-      <ListItem disablePadding>
-        <ListItemButton component="a" href="#simple-list">
-          <ListItemText primary="MOBILE PHONE" />
-        </ListItemButton>
-      </ListItem>
-      <Divider className='divider'/>
-      <ListItem disablePadding>
-        <ListItemButton component="a" href="#simple-list">
-          <ListItemText primary="LAPTOP" />
-        </ListItemButton>
-      </ListItem>
-      <Divider className='divider'/>
-      <ListItem disablePadding>
-        <ListItemButton component="a" href="#simple-list">
-          <ListItemText primary="OTHER ACCESSORIES" />
-        </ListItemButton>
-      </ListItem>
-    </List>
-  </nav>
-</Box>
-  </Grid>
-  <Grid item xs={8}  className='slider'>
-  <ProductSlider/>
+    <Grid container  sx={{marginTop:'10px'}}>
+    <Grid item xs={12} md={3} className={classes.root}>
+    {userName ?
+      (
+        <Alert iconMapping={{ success: <CheckCircleOutlineIcon fontSize="inherit" /> }}>
+          Welcome {`${userName}`} !!
+        </Alert>
+      ) :
+      (
+        <Alert variant="outlined" severity="error">
+          Please Login !!
+        </Alert>
+      )
+    }
   </Grid>
   </Grid>
+      <Grid container  sx={{ justifyContent: 'space-around' }}>
+        <Grid item xs={12} md={3}>
+          <div className='homeHead'>TOP CATEGORIES</div>
+          <CategoryList/>
+        </Grid>
+         {/*  */}
+        <Grid item xs={10} md={8} className='slider'>
+          <ProductSlider />
+        </Grid>
+      </Grid>
+       <Section1/> 
 
     </>
 

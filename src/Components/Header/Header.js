@@ -11,12 +11,18 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useNavigationType } from 'react-router-dom'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { useSelector,useDispatch } from 'react-redux';
 import { login,logout, selectUser } from '../../Store/UserSlice';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../Firebase/Firebase';
+import { Divider } from '@material-ui/core';
+import { CART_PAGE, DASHBOARD_PAGE, LOGIN_PAGE, PRODUCT_PAGE, SIGNUP_PAGE } from '../Routing/RoutePath';
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -107,10 +113,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-export default function Header() {
-  const user = useSelector(selectUser)
-  const dispatch = useDispatch()
-  console.log(user,'user'); 
+export default function Header({userName,setUserName}) {
+console.log(userName,'Header User')
+  const navigate = useNavigate()
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -134,12 +139,21 @@ export default function Header() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const handleLogin = (event) =>{
-      dispatch(login(event))
-  }
 
-  const handleLogout = (event) =>{
-    dispatch(logout())
+
+  const handleLogout = () =>{
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      localStorage.removeItem('token')
+      setUserName('')
+      console.log('logout successfull');
+      navigate(DASHBOARD_PAGE)
+      
+    }).catch((error) => {
+      // An error happened.
+      const errorCode = error.code.split('auth/')
+      console.log(errorCode,'logout error')
+    });
   }
 
   const menuId = 'primary-search-account-menu';
@@ -155,25 +169,28 @@ export default function Header() {
     >
 
 
-      {user==null?  
-        <MenuItem onClick={handleMenuClose}>
-        <Link to='/login' className={classes.link3} onClick={(e) => handleLogin(e)}>Login</Link>    
-        </MenuItem>
+      {userName?  
+       <div>
+       <MenuItem onClick={handleMenuClose}>
+       <Link to={PRODUCT_PAGE} className={classes.link3}> Profile </Link>
+       </MenuItem>  
+       <Divider/>
+       <MenuItem onClick={handleMenuClose}>
+       <Link to='/' className={classes.link3} onClick={(e) => handleLogout(e)}>Logout</Link>  
+       </MenuItem>  
+       </div>
         :   
-        <>
+        <div>
         <MenuItem onClick={handleMenuClose}>
-        <Link to='/profile' className={classes.link3}> Profile </Link>
-        </MenuItem>  
-        <MenuItem onClick={handleMenuClose}>
-        <Link to='/' className={classes.link3} onClick={(e) => handleLogout(e)}>Logout</Link>  
-        </MenuItem>  
-        </>    
+        <Link to={LOGIN_PAGE} className={classes.link3}>Login</Link>    
+        </MenuItem>
+        </div>    
         
       }
      
-      
+      <Divider/>
       <MenuItem onClick={handleMenuClose}>
-      <Link to='/signup' className={classes.link3}> SignUp </Link>
+      <Link to={SIGNUP_PAGE} className={classes.link3}> SignUp </Link>
       </MenuItem>
     </Menu>
   );
@@ -223,18 +240,18 @@ export default function Header() {
           <div className={classes.search}>
             <div className='linkMain'>
               <Typography className={classes.link}>
-                <Link color="inherit" to='/' className={classes.link1}>
+                <Link color="inherit" to={DASHBOARD_PAGE} className={classes.link1}>
                   Home
                 </Link>
 
-                <Link color="inherit" to='/product' className={classes.link1}>
+                <Link color="inherit" to={PRODUCT_PAGE} className={classes.link1}>
                 Product
                </Link>
-                <Link color="inherit" to='/cart' className={classes.link1}>
+                <Link color="inherit" to={CART_PAGE} className={classes.link1}>
                   Cart
                 </Link>
               </Typography>
-
+{/* 
               <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -245,6 +262,7 @@ export default function Header() {
                 className='searchInput'
               />
             </Search>
+            */}
             </div>
            
           </div>
@@ -252,7 +270,7 @@ export default function Header() {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
 
-            <Link color="inherit" to='/cart' className={classes.link2}>
+            <Link color="inherit" to={CART_PAGE} className={classes.link2}>
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={item.length} color="secondary">
                   <AddShoppingCartIcon />

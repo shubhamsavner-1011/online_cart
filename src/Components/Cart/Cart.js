@@ -83,53 +83,64 @@ export const Cart = () => {
   return (
     <div className='cartMain'>
       {product.length === 0 ?
-        <div className='emptyCart'>
-          <img src={cart} alt='cart' />
-        </div>
+
+        <Grid container>
+        <Grid item xs={12} md={12}>
+        <img src={cart} alt='cart' className='empty' />
+        </Grid>
+        </Grid>
+        
         :
           <div>
           {product.map((item) => {
               return <>
-                <Card key={item.id} sx={{ display: 'flex', width: '1000', padding: '20px 30px', margin: '20px 0' }}>
-                  <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-    
-                    <CardMedia
-                      component="img"
-                      sx={{ width: 151 }}
-                      image={item.image}
-                      alt="Live from space album cover"
-                    />
-    
-                    <CardContent >
-                      {/*   */}  <Typography component="div" variant="h5">
-                        {`${item.title.slice(0, 20)}...`}
-                      </Typography>
-                      <Typography variant="subtitle1" color="text.secondary" component="div">
-                        {`${item.description.slice(0, 40)}...`}
-                      </Typography>
-    
-                      <Typography variant="subtitle1" color="text.secondary" component="div">
-                        {`$ ${parseFloat(item.price * item.cartQuantity).toFixed(2) }`}
-                      </Typography>
-    
-    
-                      <div className='counting'>
-                        <Button variant="outlined" color="primary" className='incrementBtn' onClick={() => dispatch(increment(item.id))}>
-                          <AddIcon />
-                        </Button>
-                        <span className='number'>{item.cartQuantity}</span>
-                        <Button variant="outlined" color="primary" className='decrementBtn' onClick={() => dispatch(decrement(item.id))}>
-                          <RemoveIcon />
-                        </Button>
-                      </div>
-                      <CardActions className='removeCart'>
-                        <Button variant='outlined' className='cancel' onClick={() => handleRemove(item.id)}>Remove</Button>
-                        <Button variant='outlined' className='confirm' onClick={() => handleRemove(item.id)}>Buy Now</Button>
-                      </CardActions>
-                    </CardContent>
-    
-                  </Box>
-                </Card>
+
+<Grid container>
+<Grid item xs={12} md={12}>
+
+<Card key={item.id} sx={{ display: 'flex', padding: '20px 30px', margin: '20px 0' }}>
+<Box sx={{ display: 'flex', flexDirection: 'row' }}>
+
+  <CardMedia
+    component="img"
+    sx={{ width: 151 }}
+    image={item.image}
+    alt="Live from space album cover"
+  />
+
+  <CardContent >
+    {/*   */}  <Typography component="div" variant="h5">
+      {`${item.title.slice(0, 20)}...`}
+    </Typography>
+    <Typography variant="subtitle1" color="text.secondary" component="div">
+      {`${item.description.slice(0, 40)}...`}
+    </Typography>
+
+    <Typography variant="subtitle1" color="text.secondary" component="div">
+      {`$ ${parseFloat(item.price * item.cartQuantity).toFixed(2) }`}
+    </Typography>
+
+
+    <div className='counting'>
+      <Button variant="outlined" color="primary" className='incrementBtn' onClick={() => dispatch(increment(item.id))}>
+        <AddIcon />
+      </Button>
+      <span className='number'>{item.cartQuantity}</span>
+      <Button variant="outlined" color="primary" className='decrementBtn' onClick={() => dispatch(decrement(item.id))}>
+        <RemoveIcon />
+      </Button>
+    </div>
+    <CardActions className='removeCart'>
+      <Button variant='outlined' className='cancel' onClick={() => handleRemove(item.id)}>Remove</Button>
+      <Button variant='outlined' className='confirm' onClick={() => handleRemove(item.id)}>Buy Now</Button>
+    </CardActions>
+  </CardContent>
+
+</Box>
+</Card>
+</Grid>
+</Grid>
+
               </>
           })}
 

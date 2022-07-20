@@ -31,7 +31,9 @@
         margin-top: 20%;
     }
     .circle{margin: auto;}
-    .emptyCart{text-align: center;}
+    .empty{max-width: 100%;
+        height: auto;
+    }
     
     .incrementBtn, .decrementBtn{border: none !important;color: black !important}
     .counting{border: 1px solid black;padding: 5px; border-radius: 5px;width: 140px;margin: auto;}
