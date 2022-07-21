@@ -1,0 +1,17 @@
+.footerHead{
+    font-size: 17px;
+    color: #344c55;
+    padding-bottom: 15px;
+    text-transform: uppercase;
+}
+.footerLink{
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size:14px;
+    color: #a5a5a5 ;
+    text-decoration: none;
+}
+.footerMain{
+
+   display: flex;
+   flex-direction: column;
+}
