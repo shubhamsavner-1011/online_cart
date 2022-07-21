@@ -5,15 +5,15 @@ import { auth } from '../../Firebase/Firebase';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from '../Header/Header';
 import { PrivateRoutes } from './PrivateRoutes';
+import { Footer } from '../Footer/Footer';
 
 
 export const Routing = () => {
-  const token = localStorage.getItem('token')
-  console.log(token,'token>>>>');
+
  const [userName, setUserName] = useState("");
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
-      user.displayName?setUserName(user.displayName):setUserName('')
+      user.displayName ? setUserName(user.displayName) : setUserName('')
     });
   }, [userName]);
     return (
@@ -33,6 +33,7 @@ export const Routing = () => {
         );
       })}
       </Routes>
+      <Footer/>
       </Router>
     )
  
