@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export const Section1 = () => {
+export const SectionFirst = () => {
     const classes = useStyles();
   return (
     <div className={classes.root}>

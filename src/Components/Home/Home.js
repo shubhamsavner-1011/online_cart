@@ -8,7 +8,8 @@ import Alert from '@material-ui/lab/Alert';
 import CheckIcon from '@material-ui/icons/Check';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { category, CategoryList } from './CategoryList';
-import { Section1 } from './Section1';
+import { SectionFirst } from './SectionFirst';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,7 +50,7 @@ export const Home = (props) => {
           <ProductSlider />
         </Grid>
       </Grid>
-       <Section1/> 
+       <SectionFirst/> 
 
     </>
 

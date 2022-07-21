@@ -9,9 +9,12 @@
     font-size:14px;
     color: #a5a5a5 ;
     text-decoration: none;
+    line-height: 1.5;
 }
 .footerMain{
-
+text-align: center;
    display: flex;
    flex-direction: column;
+   padding:50px 0;
+   background-color: #f7f7f7;
 }
