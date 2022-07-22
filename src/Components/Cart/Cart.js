@@ -45,6 +45,7 @@ export const Cart = () => {
   const classes = useStyles();
   const theme = useTheme();
   const product = useSelector((state) => state.cart.cartItem);
+  console.log(product,'proooo');
   const totalAmount = useSelector((state) => state.cart.total)
   const dispatch = useDispatch()
   const [modalStyle] = useState(getModalStyle);
@@ -113,7 +114,7 @@ export const Cart = () => {
       {`${item.title.slice(0, 20)}...`}
     </Typography>
     <Typography variant="subtitle1" color="text.secondary" component="div">
-      {`${item.description.slice(0, 40)}...`}
+      {item.brand}
     </Typography>
 
     <Typography variant="subtitle1" color="text.secondary" component="div">

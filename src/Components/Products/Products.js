@@ -11,20 +11,22 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Rating from '@mui/material/Rating';
 import axios from 'axios';
 import '../Products/Product.css'
-import { Box } from '@mui/material';
+import { Box, Grid } from '@mui/material';
+import { Cards } from '../Card/Cards';
 
 
 export const Products = () => {
   const [value, setValue] = React.useState()
   console.log(value,'rating');
   const [product, setProduct] = useState()
+  console.log(product , 'product>>');
   const dispatch = useDispatch()
 
   useEffect(() => {
     const FetchProduct = async () => {
-      axios.get(`https://fakestoreapi.com/products`)
+      axios.get(`https://dummyjson.com/products`)
         .then(response => {
-          const posts = response.data;
+          const posts = response.data.products;
           setProduct(posts);
         })
     }
@@ -49,25 +51,41 @@ export const Products = () => {
     else {
       return (
         <>
-        <div className='ProductHead'>Products</div>
-        <div className='cardDiv'>
+        <div className='ProductHead'>PRODUCTS</div>
+
+        <Grid className='cardDiv' contanier>
+        {product && product.map(item => {
+            return <Cards image={item.thumbnail} 
+            category={item.category} 
+            title={item.title} 
+            price={item.price} 
+            brand={item.brand}
+            id={item.id}
+            />
+        })}
+    </Grid>
+{/* 
+        <Grid  className='cardDiv' contanier>
           {product && product.map(item => (
             <Card key={item.id} sx={{ width: 345 }} className='card'>
               <CardMedia
                 component="img"
                 height="140"
-                className='cardMedia'
-                image={item.image}
+                image={item.thumbnail}
                 alt="green iguana"
               />
               <CardContent>
-                <Typography gutterBottom variant="h6" component="div" sx={{ textAlign: 'center' }}>
-                  {`${item.title.slice(0, 24)}...`}
+                <Typography gutterBottom variant="h6" component="div">
+                 {`${item.title.slice(0, 24)}...`} 
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {`${item.description.slice(0, 40)}...`}
+
+                <Typography variant="h6" color="textSecondary">
+                {item.brand}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                  {item.category}
                 </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{ m: '10px 0', textAlign: 'center' }}>
+                <Typography variant="body1" color="text.secondary">
                   $ {item.price}
                 </Typography>
               </CardContent>
@@ -79,9 +97,9 @@ export const Products = () => {
               <Rating
                 name="simple-controlled"
              
-                value={item.rating.rate}
+                value={item.rating}
                 onChange={() => {
-                  setValue(item.rating.rate);
+                  setValue(item.rating);
                 }}
               />
               </Box>
@@ -90,7 +108,8 @@ export const Products = () => {
               </CardActions>
             </Card>
           ))}
-        </div>
+        </Grid>
+        */}
         </>
       )
     }

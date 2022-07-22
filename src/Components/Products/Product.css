@@ -15,7 +15,7 @@ border: 1px solid black !important;
     background-color: black !important;
     color:white !important;
 }
-.rating{text-align: center !important;}
+.rating{padding-left:16px}
 .ProductHead{
     text-align: center;
     margin: 30px ;

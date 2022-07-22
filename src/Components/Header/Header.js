@@ -11,7 +11,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { Link, useNavigate, useNavigationType } from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
@@ -20,7 +20,7 @@ import { login,logout, selectUser } from '../../Store/UserSlice';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../Firebase/Firebase';
 import { Divider } from '@material-ui/core';
-import { CART_PAGE, DASHBOARD_PAGE, LOGIN_PAGE, PRODUCT_PAGE, SIGNUP_PAGE } from '../Routing/RoutePath';
+import * as PATH from '../Routing/RoutePath';
 
 
 
@@ -139,15 +139,13 @@ console.log(userName,'Header User')
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-
-
   const handleLogout = () =>{
     signOut(auth).then(() => {
       // Sign-out successful.
       localStorage.removeItem('token')
       setUserName('')
       console.log('logout successfull');
-      navigate(DASHBOARD_PAGE)
+      navigate(PATH.DASHBOARD_PAGE)
       
     }).catch((error) => {
       // An error happened.
@@ -169,20 +167,20 @@ console.log(userName,'Header User')
     >
 
 
-      {userName?  
+      {localStorage.getItem('token')?  
        <div>
        <MenuItem onClick={handleMenuClose}>
-       <Link to={PRODUCT_PAGE} className={classes.link3}> Profile </Link>
+       <Link to={PATH.PRODUCT_PAGE} className={classes.link3}> Profile </Link>
        </MenuItem>  
        <Divider/>
        <MenuItem onClick={handleMenuClose}>
-       <Link to='/' className={classes.link3} onClick={(e) => handleLogout(e)}>Logout</Link>  
+       <Link to={PATH.DASHBOARD_PAGE} className={classes.link3} onClick={(e) => handleLogout(e)}>Logout</Link>  
        </MenuItem>  
        </div>
         :   
         <div>
         <MenuItem onClick={handleMenuClose}>
-        <Link to={LOGIN_PAGE} className={classes.link3}>Login</Link>    
+        <Link to={PATH.LOGIN_PAGE} className={classes.link3}>Login</Link>    
         </MenuItem>
         </div>    
         
@@ -190,7 +188,7 @@ console.log(userName,'Header User')
      
       <Divider/>
       <MenuItem onClick={handleMenuClose}>
-      <Link to={SIGNUP_PAGE} className={classes.link3}> SignUp </Link>
+      <Link to={PATH.SIGNUP_PAGE} className={classes.link3}> SignUp </Link>
       </MenuItem>
     </Menu>
   );
@@ -240,16 +238,19 @@ console.log(userName,'Header User')
           <div className={classes.search}>
             <div className='linkMain'>
               <Typography className={classes.link}>
-                <Link color="inherit" to={DASHBOARD_PAGE} className={classes.link1}>
-                  Home
+                <Link color="inherit" to={PATH.DASHBOARD_PAGE} className={classes.link1}>
+                  HOME
                 </Link>
 
-                <Link color="inherit" to={PRODUCT_PAGE} className={classes.link1}>
-                Product
+                <Link color="inherit" to={PATH.PRODUCT_PAGE} className={classes.link1}>
+                PRODUCT
                </Link>
-                <Link color="inherit" to={CART_PAGE} className={classes.link1}>
-                  Cart
+                <Link color="inherit" to={PATH.CART_PAGE} className={classes.link1}>
+                  CART
                 </Link>
+                <Link color="inherit" to={PATH.CATEGORY_PAGE} className={classes.link1}>
+                CATEGORY
+              </Link>
               </Typography>
 {/* 
               <Search>
@@ -270,7 +271,7 @@ console.log(userName,'Header User')
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
 
-            <Link color="inherit" to={CART_PAGE} className={classes.link2}>
+            <Link color="inherit" to={PATH.CART_PAGE} className={classes.link2}>
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={item.length} color="secondary">
                   <AddShoppingCartIcon />

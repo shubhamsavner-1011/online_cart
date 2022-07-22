@@ -11,7 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../Firebase/Firebase';
 import { Alert } from '@material-ui/lab';
-import { DASHBOARD_PAGE, LOGIN_PAGE } from '../Routing/RoutePath';
+import { CART_PAGE, DASHBOARD_PAGE, LOGIN_PAGE } from '../Routing/RoutePath';
+import { useSearchParams } from 'react-router-dom';
 
 
 const validationSchema = yup.object({
@@ -28,6 +29,12 @@ const validationSchema = yup.object({
 
 
 export const Login = ({ setUserName }) => {
+    console.log(window.location.pathname, '<<<<location>>>>>',CART_PAGE)
+
+    const [searchParams] = useSearchParams();
+    console.log('searchParams >>>>',searchParams.get('redirectURL')); 
+    const  isLogin = searchParams.get('redirectURL');
+
     const [error, setError] = useState()
     const navigate = useNavigate();
     const formik = useFormik({
@@ -45,9 +52,8 @@ export const Login = ({ setUserName }) => {
                     console.log(">>>>>>>>data",data)
                     const user = userCredential.user;
                     setUserName(user.displayName)
-                    console.log(user, 'login user')
                     localStorage.setItem('token',data)
-                    navigate(DASHBOARD_PAGE)
+                    {isLogin? navigate(CART_PAGE) : navigate(DASHBOARD_PAGE)}
                 })
                 .catch((error) => {
                     const errorCode = error.code;

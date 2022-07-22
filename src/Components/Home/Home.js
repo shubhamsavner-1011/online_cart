@@ -26,7 +26,7 @@ export const Home = (props) => {
     <>
     <Grid container  sx={{marginTop:'10px'}}>
     <Grid item xs={12} md={3} className={classes.root}>
-    {userName ?
+    {localStorage.getItem('token')?
       (
         <Alert iconMapping={{ success: <CheckCircleOutlineIcon fontSize="inherit" /> }}>
           Welcome {`${userName}`} !!

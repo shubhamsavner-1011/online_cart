@@ -13,7 +13,7 @@ export const Routing = () => {
  const [userName, setUserName] = useState("");
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
-      user.displayName ? setUserName(user.displayName) : setUserName('')
+       user.accessToken  ? setUserName(user.displayName) : setUserName('')
     });
   }, [userName]);
     return (
@@ -28,7 +28,7 @@ export const Routing = () => {
           <Route
             path={route.path}
             key={index}
-            element={<PrivateRoutes Component={route.Component} />}
+            element={<PrivateRoutes Component={route.Component} redirectURL={route.path}/>}
           />
         );
       })}
