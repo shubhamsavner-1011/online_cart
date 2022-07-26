@@ -16,6 +16,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import '../Cart/Cart.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import { Breadcrumb } from '../Breadcrumb';
 
 
 function rand() {
@@ -97,8 +98,8 @@ export const Cart = () => {
               return <>
 
 <Grid container>
+<Grid item xs={12} md={12} sx={{margin:'10px'}}><Breadcrumb/></Grid> 
 <Grid item xs={12} md={12}>
-
 <Card key={item.id} sx={{ display: 'flex', padding: '20px 30px', margin: '20px 0' }}>
 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
 

@@ -4,8 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { useDispatch } from 'react-redux';
-import { add } from '../../Store/CartSlice';
-
+import { add} from '../../Store/CartSlice';
+import { Link, useNavigate } from 'react-router-dom';
+import { PRODUCT_DETAIL_PAGE } from '../Routing/RoutePath';
+import { productDetail } from '../../Store/ProductDetailSlice';
 
 const useStyles = makeStyles({
     root: {
@@ -19,12 +21,16 @@ const useStyles = makeStyles({
   
 
 export const Cards = (props) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {image,category,title,price,brand} = props
+  const {image,category,title,price,brand,description,itemImg} = props
   const classes = useStyles();
   const addCart = (id) =>{
-      console.log(id,'dispatch>>>.')
       dispatch(add(id))
+  }
+  const prouductDetail = (id) =>{
+   dispatch(productDetail(id))
+   navigate(PRODUCT_DETAIL_PAGE)
   }
   return (
     <>
@@ -36,8 +42,9 @@ export const Cards = (props) => {
       image={image}
       height='140'
       title="Contemplative Reptile"
+      onClick={() =>prouductDetail(props)}
     />
-    <CardContent>
+    <CardContent  onClick={() =>prouductDetail(props)}>
       <Typography gutterBottom variant="h5" component="h2">
       {title}
       </Typography>

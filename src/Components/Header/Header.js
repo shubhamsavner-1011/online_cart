@@ -245,9 +245,7 @@ console.log(userName,'Header User')
                 <Link color="inherit" to={PATH.PRODUCT_PAGE} className={classes.link1}>
                 PRODUCT
                </Link>
-                <Link color="inherit" to={PATH.CART_PAGE} className={classes.link1}>
-                  CART
-                </Link>
+               
                 <Link color="inherit" to={PATH.CATEGORY_PAGE} className={classes.link1}>
                 CATEGORY
               </Link>

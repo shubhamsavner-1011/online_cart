@@ -5,6 +5,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
+import { Link } from 'react-router-dom';
+import { CATEGORY_PAGE } from '../Routing/RoutePath';
 
 const category = [
     {name: 'ELECTRONICS'},
@@ -23,11 +25,13 @@ export const CategoryList = () => {
       <List>
         {category.map((item)=>(
           <>
+          <Link to={CATEGORY_PAGE} style={{textDecoration:'none',color:'#000'}}>
           <ListItem disablePadding>
           <ListItemButton>
             <ListItemText primary={item.name} />
           </ListItemButton>
-        </ListItem>
+          </ListItem>
+          </Link>
         <Divider className='divider' />
         </>
         ))}

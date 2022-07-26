@@ -6,6 +6,7 @@ import { Grid } from '@mui/material';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
+import { Breadcrumb } from '../Breadcrumb';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -22,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
 export const Category = () => {
     const classes = useStyles();
     const [data, setData] = useState()
+    const [updateData,setUpdateData] = useState()
+    console.log(updateData,'Update');
+
     const [error, setError] = useState()
     console.log(data, 'data');
     useEffect(() => {
@@ -29,6 +33,7 @@ export const Category = () => {
             then((res) => {
                 const post = res.data.products;
                 setData(post)
+                setUpdateData(post)
             }).
             catch((err) => { setError(err) })
     }, [])
@@ -37,13 +42,15 @@ export const Category = () => {
         const result = data.filter((item)=>{
             return item.category === catItem
         })
-        setData(result)
+        setUpdateData(result)
 
     }
     return (
         <>
+        <Grid item xs={12} md={12} sx={{margin:'10px'}}><Breadcrumb/></Grid> 
         <div className={classes.root}>
-        <ButtonGroup color="primary" aria-label="outlined primary button group">
+        <ButtonGroup color="#fff" aria-label="outlined primary button group">
+        <Button onClick={()=>setUpdateData(data)}>ALL</Button>
           <Button onClick={()=>filterResult("laptops")}>LAPTOP</Button>
           <Button onClick={()=>filterResult("smartphones")}>SMARTPHONE</Button>
           <Button onClick={()=>filterResult("groceries")}>GROCERRIES</Button>
@@ -52,11 +59,11 @@ export const Category = () => {
         </ButtonGroup>
         </div>
             <div className='ProductHead'>CATEGORIES</div>
-            <Grid className='cardDiv' contanier>
-                {data && data.map(item => {
+            <Grid className='cardDiv' contanier>     
+                    {updateData && updateData.map(item => {
                     return <Cards image={item.thumbnail} 
                     category={item.category} 
-                    title={item.title} 
+                    title={`${item.title.substring(0,22)}...`} 
                     price={item.price} 
                     brand={item.brand}
                     id={item.id}

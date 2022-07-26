@@ -26,3 +26,58 @@ border: 1px solid black !important;
     text-transform: uppercase;
     font-family: 'Titillium Web', sans-serif;
 }
+
+
+
+
+/* magnify image */
+
+.App {
+    text-align: center;
+  }
+  .perimeter {
+    max-width: 1024px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .image {
+    flex: 0 0 100%;
+  }
+  
+  .copy {
+    padding: 20px;
+    font-family: sans-serif;
+    line-height: 1.5;
+  }
+  
+  .unorderList{
+    display: flex;
+    flex-direction: row;
+    margin-top: 50px !important;
+    justify-content: center;
+  }
+  .listItem{
+    width: 100px !important;
+  justify-content: center;
+  }
+
+  @media (min-width: 415px) {
+    .perimeter {
+      flex-direction: row;
+    }
+    
+    .image {
+      flex: 0 0 50%;
+    }
+  }
+  
+  @media (min-width: 800px) {
+    .image {
+      flex: 0 0 33.5%;
+    }
+  }
+  
+  

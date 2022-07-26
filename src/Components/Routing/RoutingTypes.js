@@ -6,10 +6,12 @@ import { Login } from '../Login/Login';
 import { SignUp } from '../SignUp/SignUp';
 import { Profile } from '../Profile/Profile';
 import { Category } from '../Category/Category';
+import { ProductDetails } from '../Products/ProductDetails';
   export const publicRoutes = [
     
     { path: Path.DASHBOARD_PAGE, Component: Home },
     { path: Path.PRODUCT_PAGE, Component: Products },
+    { path: Path.PRODUCT_DETAIL_PAGE, Component: ProductDetails },
     { path: Path.LOGIN_PAGE, Component: Login },
     { path: Path.SIGNUP_PAGE, Component: SignUp },
     { path: Path.CATEGORY_PAGE, Component: Category },
