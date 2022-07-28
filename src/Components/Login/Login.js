@@ -29,12 +29,9 @@ const validationSchema = yup.object({
 
 
 export const Login = ({ setUserName }) => {
-    console.log(window.location.pathname, '<<<<location>>>>>',CART_PAGE)
-
     const [searchParams] = useSearchParams();
-    console.log('searchParams >>>>',searchParams.get('redirectURL')); 
-    const  isLogin = searchParams.get('redirectURL');
 
+    const  isLogin = searchParams.get('redirectURL');
     const [error, setError] = useState()
     const navigate = useNavigate();
     const formik = useFormik({
@@ -47,20 +44,19 @@ export const Login = ({ setUserName }) => {
         onSubmit: (values) => {
           
             signInWithEmailAndPassword(auth, values.email, values.password)
-                .then((userCredential) => {
-                    const data = userCredential._tokenResponse.idToken
-                    console.log(">>>>>>>>data",data)
+                .then(async (userCredential) => {
+                    localStorage.setItem('token',userCredential._tokenResponse.idToken)
                     const user = userCredential.user;
                     setUserName(user.displayName)
-                    localStorage.setItem('token',data)
                     {isLogin? navigate(CART_PAGE) : navigate(DASHBOARD_PAGE)}
-                })
+        })
                 .catch((error) => {
                     const errorCode = error.code;
                     setError(errorCode)
                 });
         },
     });
+
     return (
         <div>
             <Box

@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { add} from '../../Store/CartSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { PRODUCT_DETAIL_PAGE } from '../Routing/RoutePath';
-import { productDetail } from '../../Store/ProductDetailSlice';
+import { productDetails } from '../../Store/ProductDetailSlice';
 
 const useStyles = makeStyles({
     root: {
@@ -29,8 +29,8 @@ export const Cards = (props) => {
       dispatch(add(id))
   }
   const prouductDetail = (id) =>{
-   dispatch(productDetail(id))
-   navigate(PRODUCT_DETAIL_PAGE)
+  //  dispatch(productDetails(id))
+   navigate(PRODUCT_DETAIL_PAGE+id.id);
   }
   return (
     <>

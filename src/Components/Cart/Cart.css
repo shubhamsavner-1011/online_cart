@@ -43,3 +43,5 @@
     .cancel:hover{background-color: red !important;color:white !important }
     .confirm{color:darkgreen !important;border: 1px solid green !important;}
     .confirm:hover{background-color: green !important;color:white !important}
+    .shoppingBtn{color:white !important;min-width: 0 !important;padding: 0 !important;}
+    .drawer{padding: 25px;}

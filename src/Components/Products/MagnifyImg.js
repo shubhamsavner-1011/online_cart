@@ -1,10 +1,10 @@
 import React from "react";
 import ReactImageMagnify from "react-image-magnify";
+import bed from '../../images/bed.jpg'
 
+export const MagnifyImg = ({images}) => {
 
-export const MagnifyImg = ({itemImg}) => {
-
- 
+ console.log(images,'itemImg')
 
   return (
     <div>
@@ -16,15 +16,17 @@ export const MagnifyImg = ({itemImg}) => {
                   smallImage: {
                     alt: "Wristwatch by Ted Baker London",
                     isFluidWidth: false,
-                    src: itemImg,
+                    src: images,
                     sizes:
                     "(min-width: 800px) 33.5vw, (min-width: 415px) 50vw, 100vw",
                     width:500,
-                    height:400
+                    height:400,
+                    borderReadius:'25px',
                   },
                   largeImage: {
+                    isFluidWidth:true,
                     alt: "",
-                    src: itemImg,
+                    src: images,
                     width: 1200,
                     height: 1800
                   },

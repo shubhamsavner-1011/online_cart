@@ -6,7 +6,8 @@ import { Grid } from '@mui/material';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
-import { Breadcrumb } from '../Breadcrumb';
+import Breadcrumb  from '../Breadcumb/Breadcrumb';
+import { useLocation} from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 export const Category = () => {
+    const navigation = useLocation();
     const classes = useStyles();
     const [data, setData] = useState()
     const [updateData,setUpdateData] = useState()
@@ -47,7 +49,7 @@ export const Category = () => {
     }
     return (
         <>
-        <Grid item xs={12} md={12} sx={{margin:'10px'}}><Breadcrumb/></Grid> 
+        <Grid item xs={12} md={12} sx={{margin:'10px'}}><Breadcrumb navigation={navigation}/></Grid> 
         <div className={classes.root}>
         <ButtonGroup color="#fff" aria-label="outlined primary button group">
         <Button onClick={()=>setUpdateData(data)}>ALL</Button>
@@ -67,6 +69,8 @@ export const Category = () => {
                     price={item.price} 
                     brand={item.brand}
                     id={item.id}
+                    description={item.description}
+                    itemImg={item.images}
                     />
                 })}
             </Grid>

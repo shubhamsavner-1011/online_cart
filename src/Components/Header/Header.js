@@ -1,5 +1,5 @@
 import React from 'react';
-import {makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,16 +11,17 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { Link, useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-import { useSelector,useDispatch } from 'react-redux';
-import { login,logout, selectUser } from '../../Store/UserSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { login, logout, selectUser } from '../../Store/UserSlice';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../Firebase/Firebase';
 import { Divider } from '@material-ui/core';
 import * as PATH from '../Routing/RoutePath';
+import { CartDrawer } from '../Cart/CartDrawer';
 
 
 
@@ -47,15 +48,15 @@ const useStyles = makeStyles((theme) => ({
   link1: {
     textDecoration: 'none',
     color: 'white',
-    margin:'0 20px'
+    margin: '0 20px'
   },
-  link2:{
-    textDecoration:'none',
-    color:'white'
+  link2: {
+    textDecoration: 'none',
+    color: 'white'
   },
-  link3:{
-    textDecoration:'none',
-    color:'black'
+  link3: {
+    textDecoration: 'none',
+    color: 'black'
   },
   sectionDesktop: {
     display: 'none',
@@ -113,8 +114,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-export default function Header({userName,setUserName}) {
-console.log(userName,'Header User')
+export default function Header({ setUserName, toggleDrawer }) {
   const navigate = useNavigate()
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -139,18 +139,18 @@ console.log(userName,'Header User')
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const handleLogout = () =>{
+  const handleLogout = () => {
     signOut(auth).then(() => {
       // Sign-out successful.
       localStorage.removeItem('token')
       setUserName('')
       console.log('logout successfull');
       navigate(PATH.DASHBOARD_PAGE)
-      
+
     }).catch((error) => {
       // An error happened.
       const errorCode = error.code.split('auth/')
-      console.log(errorCode,'logout error')
+      console.log(errorCode, 'logout error')
     });
   }
 
@@ -167,28 +167,28 @@ console.log(userName,'Header User')
     >
 
 
-      {localStorage.getItem('token')?  
-       <div>
-       <MenuItem onClick={handleMenuClose}>
-       <Link to={PATH.PRODUCT_PAGE} className={classes.link3}> Profile </Link>
-       </MenuItem>  
-       <Divider/>
-       <MenuItem onClick={handleMenuClose}>
-       <Link to={PATH.DASHBOARD_PAGE} className={classes.link3} onClick={(e) => handleLogout(e)}>Logout</Link>  
-       </MenuItem>  
-       </div>
-        :   
+      {localStorage.getItem('token') ?
         <div>
-        <MenuItem onClick={handleMenuClose}>
-        <Link to={PATH.LOGIN_PAGE} className={classes.link3}>Login</Link>    
-        </MenuItem>
-        </div>    
-        
+          <MenuItem onClick={handleMenuClose}>
+            <Link to={PATH.PROFILE_PAGE} className={classes.link3}> Profile </Link>
+          </MenuItem>
+          <Divider />
+          <MenuItem onClick={handleMenuClose}>
+            <Link to={PATH.DASHBOARD_PAGE} className={classes.link3} onClick={(e) => handleLogout(e)}>Logout</Link>
+          </MenuItem>
+        </div>
+        :
+        <div>
+          <MenuItem onClick={handleMenuClose}>
+            <Link to={PATH.LOGIN_PAGE} className={classes.link3}>Login</Link>
+          </MenuItem>
+        </div>
+
       }
-     
-      <Divider/>
+
+      <Divider />
       <MenuItem onClick={handleMenuClose}>
-      <Link to={PATH.SIGNUP_PAGE} className={classes.link3}> SignUp </Link>
+        <Link to={PATH.SIGNUP_PAGE} className={classes.link3}> SignUp </Link>
       </MenuItem>
     </Menu>
   );
@@ -222,18 +222,23 @@ console.log(userName,'Header User')
     <div className={classes.grow}>
       <AppBar position="static" className={classes.nav}>
         <Toolbar>
-          <IconButton
+          <Link to={PATH.DASHBOARD_PAGE} style={{ textDecoration: 'none', color: 'white' }}>
+            <Typography className={classes.title} variant="h6" noWrap>
+              Snapdeal
+            </Typography>
+          </Link>
+
+
+          {/*     <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
           >
             <MenuIcon />
-            <Typography className={classes.title} variant="h6" noWrap>
-              Snapdeal
-            </Typography>
+           
           </IconButton>
-
+      */}
 
           <div className={classes.search}>
             <div className='linkMain'>
@@ -243,14 +248,14 @@ console.log(userName,'Header User')
                 </Link>
 
                 <Link color="inherit" to={PATH.PRODUCT_PAGE} className={classes.link1}>
-                PRODUCT
-               </Link>
-               
+                  PRODUCT
+                </Link>
+
                 <Link color="inherit" to={PATH.CATEGORY_PAGE} className={classes.link1}>
-                CATEGORY
-              </Link>
+                  CATEGORY
+                </Link>
               </Typography>
-{/* 
+              {/* 
               <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -263,19 +268,16 @@ console.log(userName,'Header User')
             </Search>
             */}
             </div>
-           
+
           </div>
 
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-
-            <Link color="inherit" to={PATH.CART_PAGE} className={classes.link2}>
-              <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={item.length} color="secondary">
-                  <AddShoppingCartIcon />
-                </Badge>
-              </IconButton>
-            </Link>
+            <IconButton aria-label="show 4 new mails" color="inherit" >
+              <Badge badgeContent={item.length} color="secondary">
+                <CartDrawer className='cartDraw'/>
+              </Badge>
+            </IconButton>
 
             <IconButton
               edge="end"

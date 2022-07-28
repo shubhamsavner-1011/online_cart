@@ -7,8 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export const Profile = () => {
     const dispatch = useDispatch()
-    const data = useSelector(state => state.user.user)
-    console.log('dataaa',data.email);
+    const data = useSelector(state => state)
+    console.log(data,'?????data');
+
   return (
     <div>
     <Box
@@ -25,7 +26,7 @@ export const Profile = () => {
 
         <Paper elevation={3} >
         <h3 className='ProductHead'>Profile</h3>
-        <h4 className='profileHead'>{data.email}</h4>
+        {/*<h4 className='profileHead'>{data.email}</h4> */}
         
         </Paper>
     </Box>

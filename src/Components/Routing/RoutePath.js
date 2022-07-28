@@ -1,10 +1,12 @@
-export const DASHBOARD_PAGE = '/home';
-export const LOGIN_PAGE = '/login';
-export const SIGNUP_PAGE = '/signup';
-export const PRODUCT_PAGE = '/product';
-export const PRODUCT_DETAIL_PAGE = '/productDetail';
-export const CART_PAGE = '/cart';
-export const PROFILE_PAGE = '/profile';
-export const CATEGORY_PAGE = '/category';
+export const DASHBOARD_PAGE = '/';
+export const LOGIN_PAGE = '/LOGIN';
+export const SIGNUP_PAGE = '/SIGNUP';
+export const PRODUCT_PAGE = '/PRODUCT';
+export const PRODUCT_DETAIL_PAGE = '/PRODUCT/PRODUCTDETAIL/';
+export const CART_PAGE = '/CART';
+export const PROFILE_PAGE = '/PROFILE';
+export const CATEGORY_PAGE = '/CATEGORY';
+export const CATEGORY_DRAWER_PAGE = '/CATEGORYDRAWER';
+
 
 

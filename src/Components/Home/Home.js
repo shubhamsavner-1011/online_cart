@@ -8,8 +8,9 @@ import CheckIcon from '@material-ui/icons/Check';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { category, CategoryList } from './CategoryList';
 import { SectionFirst } from './SectionFirst';
-import { Breadcrumb } from '../Breadcrumb';
-
+import Breadcrumb  from '../Breadcumb/Breadcrumb';
+import {useLocation} from 'react-router-dom'
+import { CartDrawer } from '../Cart/CartDrawer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,13 +20,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Home = (props) => {
+ const  navigation= useLocation()
+
   const classes = useStyles();
   const { userName } = props
-  console.log(userName, 'nameeeeee>>>>')
   return (
     <>
+    <Grid item xs={12} md={12} sx={{margin:'10px'}}><Breadcrumb navigation={navigation}/></Grid> 
+ 
     <Grid container  sx={{marginTop:'10px'}}>
-   <Grid item xs={12} md={12} sx={{margin:'10px'}}><Breadcrumb/></Grid> 
     <Grid item xs={12} md={3} className={classes.root}>
     {localStorage.getItem('token')?
       (
@@ -41,7 +44,7 @@ export const Home = (props) => {
     }
   </Grid>
   </Grid>
-
+ 
       <Grid container  sx={{ justifyContent: 'space-around' }}>
         <Grid item xs={12} md={3}>
           <div className='homeHead'>TOP CATEGORIES</div>

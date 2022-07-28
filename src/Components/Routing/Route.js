@@ -28,7 +28,7 @@ export const Routing = () => {
           <Route
             path={route.path}
             key={index}
-            element={<PrivateRoutes Component={route.Component} redirectURL={route.path}/>}
+            element={<PrivateRoutes Component={route.Component}/>}
           />
         );
       })}

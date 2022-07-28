@@ -16,7 +16,9 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import '../Cart/Cart.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-import { Breadcrumb } from '../Breadcrumb';
+import Breadcrumb from '../Breadcumb/Breadcrumb';
+import { useLocation } from 'react-router-dom';
+
 
 
 function rand() {
@@ -43,10 +45,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export const Cart = () => {
+  const navigation = useLocation()
   const classes = useStyles();
   const theme = useTheme();
   const product = useSelector((state) => state.cart.cartItem);
-  console.log(product,'proooo');
+  console.log(product, 'proooo');
   const totalAmount = useSelector((state) => state.cart.total)
   const dispatch = useDispatch()
   const [modalStyle] = useState(getModalStyle);
@@ -75,93 +78,93 @@ export const Cart = () => {
   }
   const body = (
     <div style={modalStyle} className={classes.paper}>
-    <h2 className='ModelHead'>Are you sure clear cart ?</h2>
+      <h2 className='ModelHead'>Are you sure clear cart ?</h2>
       <div className='confirmBox'>
-      <Button variant='outlined' className='confirm' onClick={clearCart}>Confirm</Button>
-      <Button variant='outlined' className='cancel' onClick={handleClose}>Cancle</Button>
+        <Button variant='outlined' className='confirm' onClick={clearCart}>Confirm</Button>
+        <Button variant='outlined' className='cancel' onClick={handleClose}>Cancle</Button>
       </div>
     </div>
   );
   return (
-    <div className='cartMain'>
-      {product.length === 0 ?
+    <>
+      <div className='cartMain'>
+        {product.length === 0 ?
 
-        <Grid container>
-        <Grid item xs={12} md={12}>
-        <img src={cart} alt='cart' className='empty' />
-        </Grid>
-        </Grid>
-        
-        :
+          <Grid container>
+            <Grid item xs={12} md={12}>
+              <img src={cart} alt='cart' className='empty' />
+            </Grid>
+          </Grid>
+
+          :
           <div>
-          {product.map((item) => {
+            {product.map((item) => {
               return <>
+                <Grid container>
+                  <Grid item xs={12} md={12}>
+                    <Card key={item.id} sx={{ display: 'flex', padding: '20px 30px', margin: '20px 0' }}>
+                      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
 
-<Grid container>
-<Grid item xs={12} md={12} sx={{margin:'10px'}}><Breadcrumb/></Grid> 
-<Grid item xs={12} md={12}>
-<Card key={item.id} sx={{ display: 'flex', padding: '20px 30px', margin: '20px 0' }}>
-<Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                        <CardMedia
+                          component="img"
+                          sx={{ width: 151 }}
+                          image={item.image}
+                          alt="Live from space album cover"
+                        />
 
-  <CardMedia
-    component="img"
-    sx={{ width: 151 }}
-    image={item.image}
-    alt="Live from space album cover"
-  />
+                        <CardContent >
+                          {/*   */}  <Typography component="div" variant="h5">
+                            {`${item.title.slice(0, 20)}...`}
+                          </Typography>
+                          <Typography variant="subtitle1" color="text.secondary" component="div">
+                            {item.brand}
+                          </Typography>
 
-  <CardContent >
-    {/*   */}  <Typography component="div" variant="h5">
-      {`${item.title.slice(0, 20)}...`}
-    </Typography>
-    <Typography variant="subtitle1" color="text.secondary" component="div">
-      {item.brand}
-    </Typography>
-
-    <Typography variant="subtitle1" color="text.secondary" component="div">
-      {`$ ${parseFloat(item.price * item.cartQuantity).toFixed(2) }`}
-    </Typography>
+                          <Typography variant="subtitle1" color="text.secondary" component="div">
+                            {`$ ${parseFloat(item.price * item.cartQuantity).toFixed(2)}`}
+                          </Typography>
 
 
-    <div className='counting'>
-      <Button variant="outlined" color="primary" className='incrementBtn' onClick={() => dispatch(increment(item.id))}>
-        <AddIcon />
-      </Button>
-      <span className='number'>{item.cartQuantity}</span>
-      <Button variant="outlined" color="primary" className='decrementBtn' onClick={() => dispatch(decrement(item.id))}>
-        <RemoveIcon />
-      </Button>
-    </div>
-    <CardActions className='removeCart'>
-      <Button variant='outlined' className='cancel' onClick={() => handleRemove(item.id)}>Remove</Button>
-      <Button variant='outlined' className='confirm' onClick={() => handleRemove(item.id)}>Buy Now</Button>
-    </CardActions>
-  </CardContent>
+                          <div className='counting'>
+                            <Button variant="outlined" color="primary" className='incrementBtn' onClick={() => dispatch(increment(item.id))}>
+                              <AddIcon />
+                            </Button>
+                            <span className='number'>{item.cartQuantity}</span>
+                            <Button variant="outlined" color="primary" className='decrementBtn' onClick={() => dispatch(decrement(item.id))}>
+                              <RemoveIcon />
+                            </Button>
+                          </div>
+                          <CardActions className='removeCart'>
+                            <Button variant='outlined' className='cancel' onClick={() => handleRemove(item.id)}>Remove</Button>
+                            <Button variant='outlined' className='confirm' onClick={() => handleRemove(item.id)}>Buy Now</Button>
+                          </CardActions>
+                        </CardContent>
 
-</Box>
-</Card>
-</Grid>
-</Grid>
+                      </Box>
+                    </Card>
+                  </Grid>
+                </Grid>
 
               </>
-          })}
+            })}
 
-          <div className='footer'>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-          >
-            {body}
-          </Modal>
-        <Button variant='outlined' className='addcart' onClick={handleOpen}>Clear Cart</Button>
-        <Typography variant='body2' className='total'>Total Amount : $ {parseFloat(totalAmount).toFixed(2)}</Typography>
+            <div className='footer'>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+              >
+                {body}
+              </Modal>
+              <Button variant='outlined' className='addcart' onClick={handleOpen}>Clear Cart</Button>
+              <Typography variant='body2' className='total'>Total Amount : $ {parseFloat(totalAmount).toFixed(2)}</Typography>
+            </div>
+          </div>
+        }
+
       </div>
-          </div>  
-      }
-      
-    </div>
+    </>
   )
 }
 
