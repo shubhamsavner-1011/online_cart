@@ -114,7 +114,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-export default function Header({ setUserName, toggleDrawer }) {
+export default function Header({ setUserName,  handleOpen}) {
   const navigate = useNavigate()
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -170,7 +170,7 @@ export default function Header({ setUserName, toggleDrawer }) {
       {localStorage.getItem('token') ?
         <div>
           <MenuItem onClick={handleMenuClose}>
-            <Link to={PATH.PROFILE_PAGE} className={classes.link3}> Profile </Link>
+            <Link to={PATH.PROFILE_PAGE}  className={classes.link3}> Profile </Link>
           </MenuItem>
           <Divider />
           <MenuItem onClick={handleMenuClose}>

@@ -1,4 +1,4 @@
-import{ useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Button from '@material-ui/core/Button';
@@ -13,6 +13,9 @@ import { auth } from '../../Firebase/Firebase';
 import { Alert } from '@material-ui/lab';
 import { CART_PAGE, DASHBOARD_PAGE, LOGIN_PAGE } from '../Routing/RoutePath';
 import { useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import UserSlice, { login } from '../../Store/UserSlice';
+import '../Login/Login.css'
 
 
 const validationSchema = yup.object({
@@ -29,11 +32,12 @@ const validationSchema = yup.object({
 
 
 export const Login = ({ setUserName }) => {
+    const dispatch = useDispatch()
     const [searchParams] = useSearchParams();
-
-    const  isLogin = searchParams.get('redirectURL');
+    const isLogin = searchParams.get('redirectURL');
     const [error, setError] = useState()
     const navigate = useNavigate();
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -42,14 +46,16 @@ export const Login = ({ setUserName }) => {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-          
+
             signInWithEmailAndPassword(auth, values.email, values.password)
                 .then(async (userCredential) => {
-                    localStorage.setItem('token',userCredential._tokenResponse.idToken)
-                    const user = userCredential.user;
-                    setUserName(user.displayName)
-                    {isLogin? navigate(CART_PAGE) : navigate(DASHBOARD_PAGE)}
-        })
+                    localStorage.setItem('token', userCredential._tokenResponse.idToken)
+                    const users = userCredential.user;
+                    setUserName(users.displayName)
+                    // dispatch((login(users)))
+                    localStorage.setItem('uid', users.uid)
+                    { isLogin ? navigate(CART_PAGE) : navigate(DASHBOARD_PAGE) }
+                })
                 .catch((error) => {
                     const errorCode = error.code;
                     setError(errorCode)
@@ -58,7 +64,7 @@ export const Login = ({ setUserName }) => {
     });
 
     return (
-        <div>
+        <div className='login'>
             <Box
                 sx={{
                     display: 'flex',

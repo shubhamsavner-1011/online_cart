@@ -7,6 +7,7 @@ export const CART_PAGE = '/CART';
 export const PROFILE_PAGE = '/PROFILE';
 export const CATEGORY_PAGE = '/CATEGORY';
 export const CATEGORY_DRAWER_PAGE = '/CATEGORYDRAWER';
+export const ADDRESS_PAGE = '/ADDRESS';
 
 
 

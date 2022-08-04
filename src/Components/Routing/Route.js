@@ -5,7 +5,8 @@ import { auth } from '../../Firebase/Firebase';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from '../Header/Header';
 import { PrivateRoutes } from './PrivateRoutes';
-import { Footer } from '../Footer/Footer';
+import {Footer} from '../Footer/Footer'
+
 
 
 export const Routing = () => {

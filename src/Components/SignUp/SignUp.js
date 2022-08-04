@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Button from '@material-ui/core/Button';
@@ -18,15 +18,16 @@ import '../SignUp/Signup.css'
 import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from '../../Firebase/Firebase';
+import { auth, db } from '../../Firebase/Firebase';
 import { Alert } from '@material-ui/lab';
 import { DASHBOARD_PAGE } from '../Routing/RoutePath';
+import { collection, addDoc } from "firebase/firestore";
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 const validationSchema = yup.object({
     name: yup
-    .string('Enter your name').nullable(true)
-    .required('Email is required'),
+        .string('Enter your name').nullable(true)
+        .required('Email is required'),
     email: yup
         .string('Enter your email').nullable(true)
         .email('Enter a valid email')
@@ -47,12 +48,11 @@ const validationSchema = yup.object({
 
 
 export const SignUp = () => {
-    const [error,setError] = useState();
+    const [error, setError] = useState();
     const navigate = useNavigate()
-
     const formik = useFormik({
         initialValues: {
-            name:null,
+            name: null,
             email: null,
             password: null,
             age: null,
@@ -62,19 +62,27 @@ export const SignUp = () => {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            createUserWithEmailAndPassword(auth, values.email, values.password,values.name).then(async res => {
+            createUserWithEmailAndPassword(auth, values.email, values.password, values.name).then(async res => {
                 const user = res.user;
-               await updateProfile(user,{
-                    displayName:values.name
+                try {
+                    const docRef = addDoc(collection(db, "users"), {
+                        values,id:user?.uid
+                    });
+                    console.log("Document written with ID: ", docRef);
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                }
+
+                await updateProfile(user, {
+                    displayName: values.name,
                 })
+               
                 navigate(DASHBOARD_PAGE)
             }).catch(error => {
                 const errorCode = error.code
-                console.log(errorCode,'>>>>>Error')
-                const errorMessage = error.message;
+                console.log(errorCode, '>>>>>Error')
                 setError(errorCode)
             })
-          
         },
     });
     return (
@@ -129,7 +137,7 @@ export const SignUp = () => {
                             helperText={formik.touched.password && formik.errors.password}
                         />
 
-                        
+
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                                 <FormControl fullWidth>
@@ -211,9 +219,9 @@ export const SignUp = () => {
                                 ''
                             }
                         </div>
-                        {error?
+                        {error ?
                             <Alert variant="outlined" severity="error" className='alert'>
-                                {error} !!
+                                {error.split('auth/')} !!
                             </Alert>
                             : ""}
                         <div className='subBtn'>

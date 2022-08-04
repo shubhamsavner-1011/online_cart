@@ -8,7 +8,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
 import Breadcrumb  from '../Breadcumb/Breadcrumb';
 import { useLocation} from 'react-router-dom';
-
+import '../Category/Category.css';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,7 +51,7 @@ export const Category = () => {
         <>
         <Grid item xs={12} md={12} sx={{margin:'10px'}}><Breadcrumb navigation={navigation}/></Grid> 
         <div className={classes.root}>
-        <ButtonGroup color="#fff" aria-label="outlined primary button group">
+        <ButtonGroup color="#fff" aria-label="outlined primary button group" className='btnGroup'>
         <Button onClick={()=>setUpdateData(data)}>ALL</Button>
           <Button onClick={()=>filterResult("laptops")}>LAPTOP</Button>
           <Button onClick={()=>filterResult("smartphones")}>SMARTPHONE</Button>

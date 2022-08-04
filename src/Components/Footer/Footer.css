@@ -4,6 +4,12 @@
     padding-bottom: 15px;
     text-transform: uppercase;
 }
+.footerConnect{
+    padding: 15px 0;
+    font-size: 17px;
+    color: #344c55;
+    text-transform: uppercase;
+}
 .footerLink{
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-size:14px;
@@ -15,6 +21,17 @@
 text-align: center;
    display: flex;
    flex-direction: column;
-   padding:50px 0;
-   background-color: #f7f7f7;
+   padding:15px 0;
+   align-items: center;
+}
+.socialList{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.socialLink{color: black;}
+.copyright{text-align: center; 
+    background-color: black;
+    color: white;
+    padding: 10px 0;
 }

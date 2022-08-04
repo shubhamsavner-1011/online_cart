@@ -1,0 +1,9 @@
+.profile {
+    height: 61vh;
+}
+
+.address {
+    text-decoration: none;
+    color: gray;
+    cursor: pointer;
+}

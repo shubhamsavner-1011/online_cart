@@ -1,19 +1,48 @@
+
 import { initializeApp } from "firebase/app";
 import {getAuth} from 'firebase/auth'
+import {getFirestore} from "firebase/firestore";
+import { getStorage, ref } from "firebase/storage";
 
+
+
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAH6MArr7y8imivmrSQlvlJtFXKi0pAFYQ",
-  authDomain: "online-cart-a6a55.firebaseapp.com",
-  projectId: "online-cart-a6a55",
-  storageBucket: "online-cart-a6a55.appspot.com",
-  messagingSenderId: "886771281089",
-  appId: "1:886771281089:web:50c11e6b8c38c7467f3840",
-  measurementId: "G-4P7VRZ1HXZ"
+  apiKey: "AIzaSyBk56fGvJI4O4si8GR4kIrPHecRST2c2NU",
+  authDomain: "online-cart-217ee.firebaseapp.com",
+  projectId: "online-cart-217ee",
+  storageBucket: "online-cart-217ee.appspot.com",
+  messagingSenderId: "1063569593468",
+  appId: "1:1063569593468:web:be00f03165e27da2a265f9",
+  measurementId: "G-4J3980N9S9"
 };
 
 
+
+const storage = getStorage();
 const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getFirestore(app);
 
-const auth = getAuth()
+console.log(db,'database')
 
-export {app,auth} 
+export {app,auth,db,storage} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+

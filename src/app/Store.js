@@ -11,5 +11,9 @@ export const store = configureStore({
     user:UserReducer,
     product:ProductDetailSlice
   },
+  middleware: (getDefaultMiddleware) =>
+  getDefaultMiddleware({
+    serializableCheck: false,
+  }),
   composeWithDevTools
 })
