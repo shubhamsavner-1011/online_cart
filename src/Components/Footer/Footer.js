@@ -27,7 +27,7 @@ export const Footer = () => {
   return (
     <Grid container style={{backgroundColor:bgColor}}>
 
-    <Grid item xs={12} md={3} style={{'marginTop':"60px"}}>
+    <Grid item xs={12} md={3} className='footerDiv'>
     <Box className='footerMain'>
     <List>
     <ListItem><Typography variant='body2' className='footerHead'>POLICY</Typography></ListItem>

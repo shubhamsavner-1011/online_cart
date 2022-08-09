@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState}  from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -22,9 +22,10 @@ import { auth } from '../../Firebase/Firebase';
 import { Divider } from '@material-ui/core';
 import * as PATH from '../Routing/RoutePath';
 import { CartDrawer } from '../Cart/CartDrawer';
-
-
-
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -115,6 +116,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 export default function Header({ setUserName,  handleOpen}) {
+
   const navigate = useNavigate()
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -141,14 +143,13 @@ export default function Header({ setUserName,  handleOpen}) {
 
   const handleLogout = () => {
     signOut(auth).then(() => {
-      // Sign-out successful.
-      localStorage.removeItem('token')
+      localStorage.clear();
       setUserName('')
+      toast.success("Logout Successfull!!",{autoClose:2000})    
       console.log('logout successfull');
       navigate(PATH.DASHBOARD_PAGE)
 
     }).catch((error) => {
-      // An error happened.
       const errorCode = error.code.split('auth/')
       console.log(errorCode, 'logout error')
     });
@@ -219,6 +220,8 @@ export default function Header({ setUserName,  handleOpen}) {
   );
 
   return (
+    <>
+    <ToastContainer />
     <div className={classes.grow}>
       <AppBar position="static" className={classes.nav}>
         <Toolbar>
@@ -227,19 +230,6 @@ export default function Header({ setUserName,  handleOpen}) {
               Snapdeal
             </Typography>
           </Link>
-
-
-          {/*     <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-           
-          </IconButton>
-      */}
-
           <div className={classes.search}>
             <div className='linkMain'>
               <Typography className={classes.link}>
@@ -306,6 +296,7 @@ export default function Header({ setUserName,  handleOpen}) {
       {renderMobileMenu}
       {renderMenu}
     </div>
+    </>
   );
 }
 

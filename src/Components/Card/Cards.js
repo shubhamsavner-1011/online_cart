@@ -34,7 +34,7 @@ export const Cards = (props) => {
   }
   return (
     <>
-  <Grid item xs={12} md={4} lg={3} sx={{margin:'20px 0'}}>
+  <Grid item xs={12} md={4} lg={3} style={{margin:'10px'}}>
   <Card className={classes.root}>
   <CardActionArea>
     <CardMedia

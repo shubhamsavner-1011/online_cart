@@ -19,13 +19,18 @@ import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
 import { auth ,db} from '../../Firebase/Firebase';
-import {collection,addDoc} from "firebase/firestore";
+import {collection,addDoc, setDoc, doc} from "firebase/firestore";
 import { Alert } from '@material-ui/lab';
 import {PROFILE_PAGE} from '../Routing/RoutePath';
-
+import { toast } from 'react-toastify';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
 //   https://countriesnow.space/api/v0.1/countries/population/cities
+
+
+
+
 
   const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 const validationSchema = yup.object({
@@ -45,11 +50,11 @@ const validationSchema = yup.object({
     terms: yup.string().nullable(true).required("Select terms & condition"),
 });
 
+
 export const Address = () => {
     const [error,setError] = useState();
     const [value,setValue]= useState();
-    const navigate = useNavigate()
-    console.log(value,'address')
+    const navigate = useNavigate();
     const formik = useFormik({
         initialValues: {
             address:null,
@@ -60,16 +65,48 @@ export const Address = () => {
             terms: null,
         },
         validationSchema: validationSchema,
-        onSubmit: (values) => {
+        onSubmit: ({address,addresstype,city,state,locality,terms}) => {
 
-            try {
-                const docRef = addDoc(collection(db, "address"), {values});
-                setValue(docRef)
-                navigate(PROFILE_PAGE)
+            const auth = getAuth();
+            onAuthStateChanged(auth, (user) => {
+               const uid =  user;
+               console.log(uid.uid,'uiddd?????')
+               try {
+                const data = {
+                  id: uid.uid,
+                  address: address,
+                  addresstype: addresstype,
+                  city: city,
+                  state: state,
+                  locality: locality,
+                  terms: terms,
+                 
+                //   createdAt: serverTimestamp()
+                };
+                setDoc(doc(db, 'address', uid.uid) , data).then(() => {
+                    toast.success("Address Updated!!", { autoClose: 2000 });
+                    navigate(PROFILE_PAGE)
+                }).catch(e => {
+                    console.error("Error adding document: ", e.message);                
+                })
+              } catch (e) {
+                console.error("Error adding document: ", e.message);
+              }
+
+            });
+          
+
+
+
+
+            // try {
+            //     const docRef = addDoc(collection(db, "address"), {values,id:uid});
+            //     setValue(docRef)
+            //     navigate(PROFILE_PAGE)
            
-            } catch (e) {
-                setError(e.meassage);
-            }
+            // } catch (e) {
+            //     setError(e.meassage);
+            // }
             
         }
        
@@ -158,11 +195,10 @@ export const Address = () => {
                             onChange={formik.handleChange}
                             error={formik.touched.state && (formik.errors.state)}
                             helperText={formik.touched.state && formik.errors.state}
-
                         >
-                            <MenuItem value='Indore'>Madhya Pradesh</MenuItem>
-                            <MenuItem value='Bhopal'>Gujrat</MenuItem>
-                            <MenuItem value='Mumbai'>UP</MenuItem>
+                            <MenuItem value='Madhya Pradesh'>Madhya Pradesh</MenuItem>
+                            <MenuItem value='Gujrat'>Gujrat</MenuItem>
+                            <MenuItem value='UP'>UP</MenuItem>
                         </Select>
                     </FormControl>
                     {(formik.touched.state && Boolean(formik.errors.state)) ?

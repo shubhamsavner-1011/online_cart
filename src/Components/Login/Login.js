@@ -16,7 +16,8 @@ import { useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import UserSlice, { login } from '../../Store/UserSlice';
 import '../Login/Login.css'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const validationSchema = yup.object({
     email: yup
@@ -52,18 +53,23 @@ export const Login = ({ setUserName }) => {
                     localStorage.setItem('token', userCredential._tokenResponse.idToken)
                     const users = userCredential.user;
                     setUserName(users.displayName)
-                    // dispatch((login(users)))
+                    toast.success("Login Successfull!!",{autoClose:2000})   
                     localStorage.setItem('uid', users.uid)
                     { isLogin ? navigate(CART_PAGE) : navigate(DASHBOARD_PAGE) }
                 })
                 .catch((error) => {
+                       
                     const errorCode = error.code;
+                    toast.error(errorCode.split('auth/'),{autoClose:2000})
                     setError(errorCode)
                 });
         },
     });
 
     return (
+        <>
+        <ToastContainer />
+        
         <div className='login'>
             <Box
                 sx={{
@@ -121,7 +127,7 @@ export const Login = ({ setUserName }) => {
                         </div>
                         {error ?
                             <Alert className='alert' variant="outlined" severity="error">
-                                {error} !!
+                                {error.split('auth/')} !!
                             </Alert>
                             : ""}
                         <div className='subBtn'>
@@ -133,6 +139,7 @@ export const Login = ({ setUserName }) => {
                 </Paper>
             </Box>
         </div>
+        </>
     )
 }
 

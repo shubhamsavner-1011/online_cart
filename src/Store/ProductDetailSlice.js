@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialData = {
     productDetail: null,
-    products: []
+    products: [],
+    photo:''
 }
 
 export const ProductDetailSlice = createSlice({
@@ -15,11 +16,14 @@ export const ProductDetailSlice = createSlice({
         },
         productss:(state, action) => {
             state.products = action.payload;
+        },
+        photoURL:(state,action) => {
+            state.photo = action.payload;
         }
     },
 })
 
-export const { productDetails, productss } = ProductDetailSlice.actions
+export const { productDetails, productss,photoURL } = ProductDetailSlice.actions
 
 
 

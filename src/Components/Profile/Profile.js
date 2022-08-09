@@ -1,84 +1,242 @@
-import react, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import '../SignUp/Signup.css'
-import { useSelector } from 'react-redux';
-import Stack from '@mui/material/Stack';
-import { Typography } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import '../Profile/profile.css'
-import { Link } from 'react-router-dom';
-import { Address } from './Address';
-import { ADDRESS_PAGE } from '../Routing/RoutePath';
-import { collection, doc, getDocs, orderBy } from "firebase/firestore";
-import { auth, db ,storage} from '../../Firebase/Firebase';
+import react, { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import "../SignUp/Signup.css";
+import Stack from "@mui/material/Stack";
+import { Typography } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import "../Profile/profile.css";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Address } from "./Address";
+import { ADDRESS_PAGE, DASHBOARD_PAGE, PROFILE_PAGE } from "../Routing/RoutePath";
+import { addDoc, collection, doc, Firestore, getDoc, getDocs, orderBy, setDoc } from "firebase/firestore";
+import { db, storage ,auth} from "../../Firebase/Firebase";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import { styled } from "@mui/material/styles";
+import Badge from "@mui/material/Badge";
+import { ref,uploadBytes,getDownloadURL } from "firebase/storage";
+import { useDispatch, useSelector } from 'react-redux';
+import { photoURL } from "../../Store/ProductDetailSlice";
+import { toast } from "react-toastify";
+import { onAuthStateChanged } from "firebase/auth";
+import avatar from '../../images/avatar.jpg'
+import { getAuth} from "firebase/auth";
+import { deleteDoc } from "firebase/firestore";
 
 
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    backgroundColor: "#44b700",
+    color: "#44b700",
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    "&::after": {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "ripple 1.2s infinite ease-in-out",
+      border: "1px solid currentColor",
+      content: '""',
+    },
+  },
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
+      opacity: 1,
+    },
+    "100%": {
+      transform: "scale(2.4)",
+      opacity: 0,
+    },
+  },
+}));
 
+const SmallAvatar = styled(Avatar)(({ theme }) => ({
+  width: 22,
+  height: 22,
+  background: "white",
+}));
 
 export const Profile = () => {
+  const photourl = useSelector((state) => state.product.photo);
+  const navigate = useNavigate()
+  const [images,setImage] = useState()
+  const [photos, setUrl] = useState();
+  const [toggle, setToggle] = useState(true);
+  const [error, setError] = useState();
   const [newData, setData] = useState();
-
-  const UID = localStorage.getItem('uid');
+  const [address, setAddress] = useState();
+  const [profile, setProfile] = useState();
+  const [value, setValue] = useState();
+  const UID = localStorage.getItem("uid");
   const getUser = newData && UID && newData?.filter((i) => i.id == UID)[0];
+  const getAddress = address && UID && address?.filter((i) => i.id == UID)[0];
+  const getProfile = profile && UID && profile?.filter((i)=>i.id==UID)[0];
+  const dispatch = useDispatch();
+  dispatch(photoURL(photos))
 
   useEffect(() => {
     const getData = async () => {
       const userData = await getDocs(collection(db, "users"));
-      setData(userData.docs.map((doc) => ({ ...doc.data() })));
+      setData(userData.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+
+      const userAddress = await getDocs(collection(db, "address"));
+      setAddress(userAddress.docs.map((doc) => ({ id:doc.id ,...doc.data() })));
+
+      const userProfile = await getDocs(collection(db, "images"));
+      setProfile(userProfile.docs.map((doc) => ({ id:doc.id ,...doc.data() })));
+
+
     };
-
     getData();
-  }, []);
+  }, [toggle]);
+  
+   const handleChange = (e) => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
 
+  };
 
+  const deleteCurrentUser = async() =>{
+    const auth = getAuth();
+    const user = auth.currentUser.uid
+    await deleteDoc(doc(db, "users", user)).then(()=>{
+      toast.success("User Deleted !!", { autoClose: 2000 });
+      localStorage.clear()
+      navigate(DASHBOARD_PAGE)
+    }).catch(e=>{setError(e.message,'error')})
+  
+  }
+  
+
+  const onSubmit = () =>{
+    const imageRef = ref(storage, 'image')
+    uploadBytes(imageRef,images).then(()=>{
+      getDownloadURL(imageRef).then((url)=>{
+        setUrl(url)
+
+        onAuthStateChanged(auth, (user) => {
+          const uid =  user.uid;
+          try {
+           const data = {
+            id:uid,
+            photourl:url
+           };
+           setDoc(doc(db, 'images', uid) , data).then(() => {
+               toast.success("Profile Updated!!", { autoClose: 2000 });
+               setToggle(pre=>!pre)
+           }).catch(e => {
+               console.error("Error adding document: ", e.message);                
+           })
+         } catch (e) {
+           console.error("Error adding document: ", e.message);
+         } 
+       });
+      }).catch((error)=>console.log(error.message,'error'))
+      setImage(null)
+    }).catch((err)=>console.log(err.message,'upload bytes error'))
+ 
+  }
 
   return (
     <>
-    {getUser && <div className='profile'>
       <Box
         sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          '& > :not(style)': {
+          display: "flex",
+          flexWrap: "wrap",
+          "& > :not(style)": {
             m: 1,
             width: 400,
           },
         }}
-        className='formMui'
+        className="formMui"
       >
+        <Paper elevation={3} className="profile">
+          <Box>
+            <h3 className="ProductHead">Profile</h3>
 
-        <Paper elevation={3} >
-          <h3 className='ProductHead'>Profile</h3>
 
-          <Box sx={{ padding: '20px' }}>
-            <Stack direction="row" spacing={2} sx={{ justifyContent: 'center' }}>
-              <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" style={{ width: '80px', height: '80px' }} />
+            <Stack
+              direction="row"
+              spacing={2}
+              sx={{ justifyContent: "center" }}
+            >
+              <Badge
+                overlap="circular"
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                badgeContent={
+                  <SmallAvatar>
+                    <IconButton
+                      color="primary"
+                      aria-label="upload picture"
+                      component="label"
+                    >
+                      <input
+                        hidden
+                        accept="image/*"
+                        type="file"
+                        onChange={handleChange}
+                      />
+                      <PhotoCamera  sx={{color:'black'}}/>
+                    </IconButton>
+                  </SmallAvatar>
+                }
+              >
+              {getProfile ?
+                <Avatar
+                  alt="Travis Howard"
+                  src={getProfile.photourl}
+                  className="avatar"
+                />
+                :
+                <Avatar
+                  alt="Travis Howard"
+                  src={avatar}
+                  className="avatar"
+                />
+              }      
+              </Badge>
             </Stack>
-            <Typography variant='body2'>{getUser.values.name}</Typography>
-            <Typography variant='body2'>{getUser.values.email}</Typography>
-            <Link to={ADDRESS_PAGE} className='address'><Typography variant='body2'>Save Address</Typography> </Link>
+         
+            <Box sx={{textAlign:'center'}}>
+            <Button onClick={onSubmit} sx={{textAlign:'center',color:'black'}}>Upload Profile</Button>
+            </Box>
+            {getUser && (
+              <Box sx={{ padding: "20px" }}>
+                <Typography variant="h5">{getUser.name}</Typography>
+                <Typography variant="subtitle1" color="gray">
+                  {getUser.email}
+                </Typography>
+
+                {getAddress && (
+                  <>
+                    <Box>
+                      <Typography variant="body2">
+                        {getAddress.address}
+                      </Typography>
+                      <Typography variant="body2">
+                        {getAddress.locality}
+                      </Typography>
+                      <Typography variant="body2">{`${getAddress.city} , ${getAddress.state}`}</Typography>
+                    </Box>
+                  </>
+                )}
+                <Link to={ADDRESS_PAGE} className="address">
+                  <Typography variant="body2">Add/Edit Address</Typography>
+                </Link>
+                <Link to={PROFILE_PAGE} className="address" onClick={deleteCurrentUser}>
+                <Typography variant="body2">Delete User</Typography>
+              </Link>
+              </Box>
+            )}
           </Box>
         </Paper>
       </Box>
-    </div> }
     </>
-  )
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  );
+};
