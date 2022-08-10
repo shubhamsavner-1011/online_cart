@@ -70,7 +70,6 @@ export const Address = () => {
             const auth = getAuth();
             onAuthStateChanged(auth, (user) => {
                const uid =  user;
-               console.log(uid.uid,'uiddd?????')
                try {
                 const data = {
                   id: uid.uid,
@@ -94,19 +93,6 @@ export const Address = () => {
               }
 
             });
-          
-
-
-
-
-            // try {
-            //     const docRef = addDoc(collection(db, "address"), {values,id:uid});
-            //     setValue(docRef)
-            //     navigate(PROFILE_PAGE)
-           
-            // } catch (e) {
-            //     setError(e.meassage);
-            // }
             
         }
        

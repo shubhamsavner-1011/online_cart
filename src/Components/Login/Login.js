@@ -7,17 +7,19 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import '../SignUp/Signup.css'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../Firebase/Firebase';
 import { Alert } from '@material-ui/lab';
-import { CART_PAGE, DASHBOARD_PAGE, LOGIN_PAGE } from '../Routing/RoutePath';
+import { CART_PAGE, DASHBOARD_PAGE, FORGET_PASSWORD, LOGIN_PAGE } from '../Routing/RoutePath';
 import { useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import UserSlice, { login } from '../../Store/UserSlice';
 import '../Login/Login.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Typography } from '@material-ui/core';
+
 
 const validationSchema = yup.object({
     email: yup
@@ -65,6 +67,7 @@ export const Login = ({ setUserName }) => {
                 });
         },
     });
+
 
     return (
         <>
@@ -135,6 +138,7 @@ export const Login = ({ setUserName }) => {
                                 LOGIN
                             </Button>
                         </div>
+                        <Link to={FORGET_PASSWORD}><Typography style={{color:'black'}}>forget password ?</Typography></Link>
                     </form>
                 </Paper>
             </Box>

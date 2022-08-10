@@ -9,3 +9,12 @@
 }
 .profileContainer{height: 58vh;width: 100%;}
 .avatar{width: 60px !important; height: 60px !important;}
+.loader{
+    color: black !important;
+    left: 18px;
+    position: absolute;
+    width: 26px !important;
+    height: 26px !important;
+    z-index: 999;
+    top: 17px;
+}

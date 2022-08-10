@@ -8,6 +8,7 @@ import { Profile } from '../Profile/Profile';
 import { Category } from '../Category/Category';
 import { ProductDetails } from '../Products/ProductDetails';
 import { Address } from '../Profile/Address';
+import { ForgetPassword } from '../ForgetPassword/ForgetPassword';
   export const publicRoutes = [
     
     { path: Path.DASHBOARD_PAGE, Component: Home },
@@ -17,6 +18,7 @@ import { Address } from '../Profile/Address';
     { path: Path.SIGNUP_PAGE, Component: SignUp },
     { path: Path.CATEGORY_PAGE, Component: Category },
     { path: Path.ADDRESS_PAGE, Component: Address },
+    { path: Path.FORGET_PASSWORD, Component: ForgetPassword },
    
   ];
   export const privateRoutes = [

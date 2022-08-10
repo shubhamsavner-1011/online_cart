@@ -1,4 +1,4 @@
-import react, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import "../SignUp/Signup.css";
@@ -24,7 +24,14 @@ import { onAuthStateChanged } from "firebase/auth";
 import avatar from '../../images/avatar.jpg'
 import { getAuth} from "firebase/auth";
 import { deleteDoc } from "firebase/firestore";
+import { makeStyles } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
+const useStyles = makeStyles({
+  root: {
+    width: '100%',
+  },
+});
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -69,15 +76,20 @@ export const Profile = () => {
   const [toggle, setToggle] = useState(true);
   const [error, setError] = useState();
   const [newData, setData] = useState();
+  console.log(newData,'newData>>>>')
   const [address, setAddress] = useState();
   const [profile, setProfile] = useState();
+  const [progress, setProgress] = React.useState(0);
   const [value, setValue] = useState();
   const UID = localStorage.getItem("uid");
   const getUser = newData && UID && newData?.filter((i) => i.id == UID)[0];
   const getAddress = address && UID && address?.filter((i) => i.id == UID)[0];
   const getProfile = profile && UID && profile?.filter((i)=>i.id==UID)[0];
+  console.log(getProfile,'getProoo>>')
+  console.log(getUser,'getProoo>>')
   const dispatch = useDispatch();
   dispatch(photoURL(photos))
+  const classes = useStyles();
 
   useEffect(() => {
     const getData = async () => {
@@ -95,6 +107,9 @@ export const Profile = () => {
     getData();
   }, [toggle]);
   
+
+ 
+
    const handleChange = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
@@ -128,8 +143,20 @@ export const Profile = () => {
             photourl:url
            };
            setDoc(doc(db, 'images', uid) , data).then(() => {
-               toast.success("Profile Updated!!", { autoClose: 2000 });
-               setToggle(pre=>!pre)
+            setToggle(pre=>!pre)
+            const timer = setTimeout(() => {
+              setProgress((oldProgress) => {
+                if (oldProgress === 100) {
+                  return 0;
+                }
+                const diff = 30* 10;
+                return Math.min(oldProgress + diff, 100);
+              });
+            },3000);
+        
+            return () => {
+              clearInterval(timer);
+            };
            }).catch(e => {
                console.error("Error adding document: ", e.message);                
            })
@@ -157,6 +184,9 @@ export const Profile = () => {
         className="formMui"
       >
         <Paper elevation={3} className="profile">
+        <div className={classes.root}>
+        <LinearProgress variant="determinate" value={progress} />
+        </div>
           <Box>
             <h3 className="ProductHead">Profile</h3>
 
@@ -187,19 +217,11 @@ export const Profile = () => {
                   </SmallAvatar>
                 }
               >
-              {getProfile ?
                 <Avatar
                   alt="Travis Howard"
-                  src={getProfile.photourl}
+                  src={getProfile ? getProfile.photourl : avatar}
                   className="avatar"
                 />
-                :
-                <Avatar
-                  alt="Travis Howard"
-                  src={avatar}
-                  className="avatar"
-                />
-              }      
               </Badge>
             </Stack>
          
@@ -240,3 +262,10 @@ export const Profile = () => {
     </>
   );
 };
+
+
+
+
+
+
+
