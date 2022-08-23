@@ -44,7 +44,7 @@ export const CartDrawer = () => {
       role="presentation"
       onKeyDown={toggleDrawer(anchor, false)}
     >
-    <Cart/>     
+    <Cart setState={setState}/>     
     </div>
   );
 

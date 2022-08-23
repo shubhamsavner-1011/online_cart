@@ -3,9 +3,6 @@ import ReactImageMagnify from "react-image-magnify";
 import bed from '../../images/bed.jpg'
 
 export const MagnifyImg = ({images}) => {
-
- console.log(images,'itemImg')
-
   return (
     <div>
     <div className="perimeter">

@@ -12,7 +12,7 @@ const iOSUrl = 'https://itunes.apple.com/us/app/all-of-the-lights/id959389722?mt
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
-      margin:'100px 0'
+      margin:'60px 0'
     },
     paper: {
       padding: theme.spacing(2),

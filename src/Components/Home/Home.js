@@ -11,6 +11,7 @@ import { SectionFirst } from './SectionFirst';
 import Breadcrumb  from '../Breadcumb/Breadcrumb';
 import {useLocation} from 'react-router-dom'
 import { CartDrawer } from '../Cart/CartDrawer';
+import { TrendingCaraousel } from './TrendingCaraousel';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +27,7 @@ export const Home = (props) => {
   const { userName } = props
   return (
     <>
-    <Grid item xs={12} md={12} sx={{margin:'10px'}}><Breadcrumb navigation={navigation}/></Grid> 
+    <Grid item xs={12} md={12} className='breadDiv'><Breadcrumb navigation={navigation}/></Grid> 
  
     <Grid container  sx={{marginTop:'10px'}}>
     <Grid item xs={12} md={3} className={classes.root}>
@@ -47,7 +48,7 @@ export const Home = (props) => {
  
       <Grid container  sx={{ justifyContent: 'space-around' }}>
         <Grid item xs={12} md={3}>
-          <div className='homeHead'>TOP CATEGORIES</div>
+          <div className='homeHead' style={{fontWeight:'700'}}>TOP CATEGORIES</div>
           <CategoryList/>
         </Grid>
          {/*  */}
@@ -55,7 +56,14 @@ export const Home = (props) => {
           <ProductSlider />
         </Grid>
       </Grid>
+      <Grid container sx={{ justifyContent: 'center' }}>
+      <Grid item xs={12} md={10}>
+      <div className='homeHead' style={{textAlign:'center',fontSize:'27px',fontWeight:'800',margin:'40px auto'}}>TRENDING PRODUCTS</div>
+      <TrendingCaraousel/>
+      </Grid>
+      </Grid>
        <SectionFirst/> 
+      
 
     </>
 

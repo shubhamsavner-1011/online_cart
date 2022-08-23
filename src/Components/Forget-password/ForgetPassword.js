@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import "../SignUp/Signup.css";
+import "../Sign-up/Signup.css";
 import {Link, useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import "../Login/Login.css";
@@ -33,18 +33,16 @@ export const ForgetPassword = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values.email,'email')
         const auth = getAuth();
-        console.log(auth,'auth')
         sendPasswordResetEmail(auth, values.email)
           .then(() => {
             toast.success("Email Sent Successfully!!",{autoClose:2000}) 
-            console.log("email sent");
             // ..
           })
           .catch((error) => {
             const errorMessage = error.message;
-            setError(errorMessage)
+            const errorCode = error.code;
+            setError(errorCode)
           });
     },
   });

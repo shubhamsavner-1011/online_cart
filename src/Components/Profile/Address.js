@@ -14,7 +14,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
-import '../SignUp/Signup.css'
+import '../Sign-up/Signup.css'
 import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
@@ -83,13 +83,13 @@ export const Address = () => {
                 //   createdAt: serverTimestamp()
                 };
                 setDoc(doc(db, 'address', uid.uid) , data).then(() => {
-                    toast.success("Address Updated!!", { autoClose: 2000 });
+                    // toast.success("Address Updated!!", { autoClose: 2000 });
                     navigate(PROFILE_PAGE)
                 }).catch(e => {
-                    console.error("Error adding document: ", e.message);                
+                    setError(e.message)
                 })
               } catch (e) {
-                console.error("Error adding document: ", e.message);
+                setError(e.message)
               }
 
             });
@@ -143,7 +143,6 @@ export const Address = () => {
                     <Grid item xs={6}>
                         <FormControl fullWidth>
                             <InputLabel id="demo-simple-select-label">City</InputLabel>
-                            {console.log('>>>>', formik.errors)}
                             <Select
                                 labelId="demo-simple-select-label"
                                 label="City"
@@ -170,7 +169,6 @@ export const Address = () => {
                     <Grid item xs={6}>
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">State</InputLabel>
-                        {console.log('>>>>', formik.errors)}
                         <Select
                             labelId="demo-simple-select-label"
                             label="State"

@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
-import '../SignUp/Signup.css'
+import '../Sign-up/Signup.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../Firebase/Firebase';
@@ -62,7 +62,7 @@ export const Login = ({ setUserName }) => {
                 .catch((error) => {
                        
                     const errorCode = error.code;
-                    toast.error(errorCode.split('auth/'),{autoClose:2000})
+                    toast.error(errorCode,{autoClose:2000})
                     setError(errorCode)
                 });
         },

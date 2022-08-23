@@ -17,7 +17,10 @@ import '../Cart/Cart.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Breadcrumb from '../Breadcumb/Breadcrumb';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ADDRESS_PAGE } from '../Routing/RoutePath';
+import { PaymentStepper } from '../Payment-stepper/PaymentStepper';
+
 
 
 
@@ -44,12 +47,13 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
   },
 }));
-export const Cart = () => {
-  const navigation = useLocation()
+export const Cart = ({setState}) => {
+  const navigate = useNavigate()
+  const [buy,setBuy] = useState(false)
   const classes = useStyles();
   const theme = useTheme();
   const product = useSelector((state) => state.cart.cartItem);
-  console.log(product, 'proooo');
+  console.log(product,'product>>>>')
   const totalAmount = useSelector((state) => state.cart.total)
   const dispatch = useDispatch()
   const [modalStyle] = useState(getModalStyle);
@@ -76,6 +80,10 @@ export const Cart = () => {
     setOpen(false)
 
   }
+  const buyNow = () => {
+    setBuy(true)
+  }
+
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <h2 className='ModelHead'>Are you sure clear cart ?</h2>
@@ -98,7 +106,8 @@ export const Cart = () => {
 
           :
           <div>
-            {product.map((item) => {
+          {buy ? <PaymentStepper setState={setState}/> : 
+            product.map((item) => {
               return <>
                 <Grid container>
                   <Grid item xs={12} md={12}>
@@ -136,7 +145,7 @@ export const Cart = () => {
                           </div>
                           <CardActions className='removeCart'>
                             <Button variant='outlined' className='cancel' onClick={() => handleRemove(item.id)}>Remove</Button>
-                            <Button variant='outlined' className='confirm' onClick={() => handleRemove(item.id)}>Buy Now</Button>
+                            <Button variant='outlined' className='confirm' onClick={buyNow}>Buy Now</Button>
                           </CardActions>
                         </CardContent>
 
@@ -146,7 +155,8 @@ export const Cart = () => {
                 </Grid>
 
               </>
-            })}
+            })
+          }
 
             <div className='footer'>
               <Modal
@@ -159,8 +169,9 @@ export const Cart = () => {
               </Modal>
               <Button variant='outlined' className='addcart' onClick={handleOpen}>Clear Cart</Button>
               <Typography variant='body2' className='total'>Total Amount : $ {parseFloat(totalAmount).toFixed(2)}</Typography>
+            </div>          
             </div>
-          </div>
+        
         }
 
       </div>

@@ -8,20 +8,23 @@ import { add } from '../../Store/CartSlice';
 import { useDispatch } from 'react-redux';
 import Breadcrumb from '../Breadcumb/Breadcrumb';
 import { Box } from '@material-ui/core';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams,useNavigate } from 'react-router-dom';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import discount from '../../images/discount1.png'
 import { productDetails} from '../../Store/ProductDetailSlice';
 import axios from 'axios';
+import { STRIPE_PAYMENT } from '../Routing/RoutePath';
 
-export const ProductDetails = () => {
+export const ProductDetails = ({setState}) => {
   const navigation = useLocation()
+  const navigate = useNavigate()
   const [number, setNumber] = useState(0);
   const [productDetailsssss, setProductDetail] = useState({});
   const dispatch = useDispatch()
   const { id } = useParams();
+  console.log(id,'id-param')
   const { productDetail} = useSelector((state) => state.product);
 
   useEffect(() => {
@@ -39,11 +42,15 @@ export const ProductDetails = () => {
   const addCart = (id) => {
     dispatch(add(id))
   }
+  const placeOrder = () =>{
+    navigate(STRIPE_PAYMENT)
+    setState("right", false);
+  }
 
   const { brand, category, title, description, price, images } = productDetailsssss
   return (
     <>
-      <Grid item xs={12} md={12} sx={{ margin: '10px' }}><Breadcrumb navigation={navigation} /></Grid>
+      <Grid item xs={12} md={12} sx={{ margin: '75px' }}><Breadcrumb navigation={navigation} /></Grid>
       <Grid container>
      
         <Grid item xs={12} md={6} sm={6}>
@@ -83,7 +90,7 @@ export const ProductDetails = () => {
             </Typography>
             <Box>
               <Button variant='outlined' className='addcart1' onClick={() => addCart(productDetail)}>Add to cart</Button>
-              <Button variant='outlined' className='placeOrder'>Place Order</Button>
+              <Button variant='outlined' className='placeOrder' onClick={placeOrder}>Place Order</Button>
             </Box>
           </div>
 

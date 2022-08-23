@@ -50,7 +50,7 @@ margin-left: 10px !important;
     margin:auto;
     width: 80%;
 }
-
+.breadDiv{margin-top: 75px !important;margin-left: 10px !important;}
 
 @media only screen and (max-width: 768px) {
     .mobileImg{width: 330px; height: 330px;margin-top: 50px;}

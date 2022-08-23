@@ -41,7 +41,16 @@
     .ModelHead{text-align: center;}
     .cancel{color:red !important;border:1px solid red !important;}
     .cancel:hover{background-color: red !important;color:white !important }
+    .addressBtn{color: black !important; border:1px solid black !important;}
+    .addressBtn:hover{background-color: black !important;color:white !important }
     .confirm{color:darkgreen !important;border: 1px solid green !important;}
     .confirm:hover{background-color: green !important;color:white !important}
     .shoppingBtn{color:white !important;min-width: 0 !important;padding: 0 !important;}
     .drawer{padding: 25px;}
+
+    .css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed {
+    color:green !important
+    }
+    .css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-active{
+        color:black !important;
+    }

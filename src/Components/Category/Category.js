@@ -26,10 +26,7 @@ export const Category = () => {
     const classes = useStyles();
     const [data, setData] = useState()
     const [updateData,setUpdateData] = useState()
-    console.log(updateData,'Update');
-
     const [error, setError] = useState()
-    console.log(data, 'data');
     useEffect(() => {
         axios.get('https://dummyjson.com/products').
             then((res) => {
@@ -49,7 +46,7 @@ export const Category = () => {
     }
     return (
         <>
-        <Grid item xs={12} md={12} sx={{margin:'10px'}}><Breadcrumb navigation={navigation}/></Grid> 
+        <Grid item xs={12} md={12} sx={{margin:'75px'}}><Breadcrumb navigation={navigation}/></Grid> 
         <div className={classes.root}>
         <ButtonGroup color="#fff" aria-label="outlined primary button group" className='btnGroup'>
         <Button onClick={()=>setUpdateData(data)}>ALL</Button>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import "../SignUp/Signup.css";
+import "../Sign-up/Signup.css";
 import Stack from "@mui/material/Stack";
 import { Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
@@ -76,7 +76,6 @@ export const Profile = () => {
   const [toggle, setToggle] = useState(true);
   const [error, setError] = useState();
   const [newData, setData] = useState();
-  console.log(newData,'newData>>>>')
   const [address, setAddress] = useState();
   const [profile, setProfile] = useState();
   const [progress, setProgress] = React.useState(0);
@@ -85,8 +84,6 @@ export const Profile = () => {
   const getUser = newData && UID && newData?.filter((i) => i.id == UID)[0];
   const getAddress = address && UID && address?.filter((i) => i.id == UID)[0];
   const getProfile = profile && UID && profile?.filter((i)=>i.id==UID)[0];
-  console.log(getProfile,'getProoo>>')
-  console.log(getUser,'getProoo>>')
   const dispatch = useDispatch();
   dispatch(photoURL(photos))
   const classes = useStyles();
@@ -101,7 +98,6 @@ export const Profile = () => {
 
       const userProfile = await getDocs(collection(db, "images"));
       setProfile(userProfile.docs.map((doc) => ({ id:doc.id ,...doc.data() })));
-
 
     };
     getData();
@@ -158,15 +154,15 @@ export const Profile = () => {
               clearInterval(timer);
             };
            }).catch(e => {
-               console.error("Error adding document: ", e.message);                
+            setError(e.message)                
            })
          } catch (e) {
-           console.error("Error adding document: ", e.message);
+          setError(e.message) 
          } 
        });
-      }).catch((error)=>console.log(error.message,'error'))
+      }).catch((error)=>setError(error.message) )
       setImage(null)
-    }).catch((err)=>console.log(err.message,'upload bytes error'))
+    }).catch((err)=>setError(err.message) )
  
   }
 
@@ -182,6 +178,7 @@ export const Profile = () => {
           },
         }}
         className="formMui"
+        getAddress={getAddress}
       >
         <Paper elevation={3} className="profile">
         <div className={classes.root}>

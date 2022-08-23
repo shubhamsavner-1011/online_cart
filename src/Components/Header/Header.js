@@ -146,12 +146,10 @@ export default function Header({ setUserName,  handleOpen}) {
       localStorage.clear();
       setUserName('')
       toast.success("Logout Successfull!!",{autoClose:2000})    
-      console.log('logout successfull');
       navigate(PATH.DASHBOARD_PAGE)
 
     }).catch((error) => {
       const errorCode = error.code.split('auth/')
-      console.log(errorCode, 'logout error')
     });
   }
 
@@ -223,7 +221,7 @@ export default function Header({ setUserName,  handleOpen}) {
     <>
     <ToastContainer />
     <div className={classes.grow}>
-      <AppBar position="static" className={classes.nav}>
+      <AppBar position="fixed" className={classes.nav}>
         <Toolbar>
           <Link to={PATH.DASHBOARD_PAGE} style={{ textDecoration: 'none', color: 'white' }}>
             <Typography className={classes.title} variant="h6" noWrap>

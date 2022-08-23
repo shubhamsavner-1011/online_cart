@@ -14,7 +14,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
-import "../SignUp/Signup.css";
+import "./Signup.css";
 import { Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -91,10 +91,10 @@ export const SignUp = () => {
             setDoc(doc(db, 'users', user.uid), data).then(() => {
                 toast.success("Signup Successfull!!", { autoClose: 2000 });
             }).catch(e => {
-                console.error("Error adding document: ", e.message);                
+              setError(e.message)                
             })
           } catch (e) {
-            console.error("Error adding document: ", e.message);
+            setError(e.message) 
           }
 
           await updateProfile(user, {
@@ -105,7 +105,6 @@ export const SignUp = () => {
         })
         .catch((error) => {
           const errorCode = error.code;
-          console.log(errorCode, ">>>>>Error");
           setError(errorCode);
         });
     },
@@ -168,7 +167,6 @@ export const SignUp = () => {
                 <Grid item xs={6}>
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                    {console.log(">>>>", formik.errors)}
                     <Select
                       labelId="demo-simple-select-label"
                       label="Age"
