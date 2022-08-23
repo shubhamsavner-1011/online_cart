@@ -145,7 +145,6 @@ export const Cart = ({setState}) => {
                           </div>
                           <CardActions className='removeCart'>
                             <Button variant='outlined' className='cancel' onClick={() => handleRemove(item.id)}>Remove</Button>
-                            <Button variant='outlined' className='confirm' onClick={buyNow}>Buy Now</Button>
                           </CardActions>
                         </CardContent>
 
@@ -168,6 +167,7 @@ export const Cart = ({setState}) => {
                 {body}
               </Modal>
               <Button variant='outlined' className='addcart' onClick={handleOpen}>Clear Cart</Button>
+              <Button variant='outlined' className='confirm' onClick={buyNow}>Buy Now</Button>
               <Typography variant='body2' className='total'>Total Amount : $ {parseFloat(totalAmount).toFixed(2)}</Typography>
             </div>          
             </div>

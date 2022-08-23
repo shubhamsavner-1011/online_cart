@@ -9,8 +9,8 @@
     font-size: 20px !important;
 }
 .removeCart{
-    padding-top: 10px !important;
-    justify-content: space-evenly;
+    padding: 10px 0 !important;
+
     }
     
     .cardMedia{
@@ -43,7 +43,7 @@
     .cancel:hover{background-color: red !important;color:white !important }
     .addressBtn{color: black !important; border:1px solid black !important;}
     .addressBtn:hover{background-color: black !important;color:white !important }
-    .confirm{color:darkgreen !important;border: 1px solid green !important;}
+    .confirm{color:darkgreen !important;border: 1px solid green !important;margin: 10px 0 !important;}
     .confirm:hover{background-color: green !important;color:white !important}
     .shoppingBtn{color:white !important;min-width: 0 !important;padding: 0 !important;}
     .drawer{padding: 25px;}
