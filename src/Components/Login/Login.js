@@ -73,7 +73,7 @@ export const Login = ({ setUserName }) => {
         <>
         <ToastContainer />
         
-        <div className='login'>
+        <div className='login' >
             <Box
                 sx={{
                     display: 'flex',

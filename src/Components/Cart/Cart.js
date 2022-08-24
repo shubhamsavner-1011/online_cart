@@ -53,7 +53,6 @@ export const Cart = ({setState}) => {
   const classes = useStyles();
   const theme = useTheme();
   const product = useSelector((state) => state.cart.cartItem);
-  console.log(product,'product>>>>')
   const totalAmount = useSelector((state) => state.cart.total)
   const dispatch = useDispatch()
   const [modalStyle] = useState(getModalStyle);
@@ -109,9 +108,9 @@ export const Cart = ({setState}) => {
           {buy ? <PaymentStepper setState={setState}/> : 
             product.map((item) => {
               return <>
-                <Grid container>
+                <Grid container style={{marginTop:'70px'}}>
                   <Grid item xs={12} md={12}>
-                    <Card key={item.id} sx={{ display: 'flex', padding: '20px 30px', margin: '20px 0' }}>
+                    <Card key={item.id} sx={{ display: 'flex', padding: '20px 30px', margin: '20px 10px' }}>
                       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
 
                         <CardMedia
@@ -168,8 +167,10 @@ export const Cart = ({setState}) => {
               </Modal>
               <Button variant='outlined' className='addcart' onClick={handleOpen}>Clear Cart</Button>
               <Button variant='outlined' className='confirm' onClick={buyNow}>Buy Now</Button>
-              <Typography variant='body2' className='total'>Total Amount : $ {parseFloat(totalAmount).toFixed(2)}</Typography>
             </div>          
+            <Box style={{textAlign:'center'}}>
+            <Typography variant='body2' className='total'>Total Amount : $ {parseFloat(totalAmount).toFixed(2)}</Typography>
+            </Box>
             </div>
         
         }

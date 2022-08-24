@@ -168,6 +168,11 @@ export default function Header({ setUserName,  handleOpen}) {
 
       {localStorage.getItem('token') ?
         <div>
+        
+       <MenuItem onClick={handleMenuClose}>
+       <Link to={PATH.CART_PAGE}  className={classes.link3}> Cart </Link>
+       </MenuItem>
+        <Divider />
           <MenuItem onClick={handleMenuClose}>
             <Link to={PATH.PROFILE_PAGE}  className={classes.link3}> Profile </Link>
           </MenuItem>
@@ -204,7 +209,7 @@ export default function Header({ setUserName,  handleOpen}) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
+     <IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
@@ -212,7 +217,7 @@ export default function Header({ setUserName,  handleOpen}) {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+      
       </MenuItem>
     </Menu>
   );
@@ -243,18 +248,6 @@ export default function Header({ setUserName,  handleOpen}) {
                   CATEGORY
                 </Link>
               </Typography>
-              {/* 
-              <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
-                className='searchInput'
-              />
-            </Search>
-            */}
             </div>
 
           </div>
@@ -279,6 +272,8 @@ export default function Header({ setUserName,  handleOpen}) {
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
+         
+
             <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}

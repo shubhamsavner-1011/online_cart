@@ -10,6 +10,9 @@ export const CATEGORY_DRAWER_PAGE = '/categoryDrawer';
 export const ADDRESS_PAGE = '/address';
 export const FORGET_PASSWORD = '/forgetPassword';
 export const STRIPE_PAYMENT = '/payment';
+export const STRIPE_SUCCSESS = '/success';
+export const STRIPE_CANCEL = '/cancel';
+
 
 
 

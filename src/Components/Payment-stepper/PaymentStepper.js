@@ -129,7 +129,7 @@ export const PaymentStepper = ({ setState }) => {
                           disabled
                           variant="outlined"
                           onClick={handleNext}
-                          sx={{ mt: 1, mr: 3 }}
+                          sx={{ mr: 3 }}
                         >
                           {index === steps.length - 1 ? "Finish" : "Continue"}
                         </Button>

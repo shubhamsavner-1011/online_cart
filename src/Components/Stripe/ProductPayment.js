@@ -12,8 +12,9 @@ export const ProductPayment = (props) => {
     <>
           <Box className="copy">
           <Box>
-          <img src={image} width={250} height={250}/>
+          <img src={image} width={'100%'} height={250}/>
           </Box>
+          <Box style={{padding:'10px'}}>
             <Typography gutterBottom variant="h5" component="h2">
               {title}
             </Typography>
@@ -25,7 +26,8 @@ export const ProductPayment = (props) => {
             <Typography gutterBottom variant="h6" color="textSecondary" component="p">
               $ {price}
             </Typography>
-          </Box>
+            </Box>
+            </Box>
     </>
   )
 }

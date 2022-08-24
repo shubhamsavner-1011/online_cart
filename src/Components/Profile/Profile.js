@@ -171,6 +171,7 @@ export const Profile = () => {
       <Box
         sx={{
           display: "flex",
+          marginTop:'75px',
           flexWrap: "wrap",
           "& > :not(style)": {
             m: 1,
