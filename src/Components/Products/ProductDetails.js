@@ -16,15 +16,43 @@ import discount from '../../images/discount1.png'
 import { productDetails} from '../../Store/ProductDetailSlice';
 import axios from 'axios';
 import { STRIPE_PAYMENT } from '../Routing/RoutePath';
+import { loadStripe } from "@stripe/stripe-js";
+import "../Stripe/Stripe.css";
+import { STRIPE_KEY } from "../../service";
+
+
+let stripePromise;
+const getStripe = () => {
+  if (!stripePromise) {
+    stripePromise = loadStripe(STRIPE_KEY);
+  }
+  return stripePromise;
+};
 
 export const ProductDetails = ({setState}) => {
+  const item = {
+    price: "price_1LaG9USC6LWxRL4UxfT4d144",
+    quantity: 1,
+  };
+  const checkoutOption = {
+    lineItems: [item],
+    mode: "payment",
+    successUrl: `${window.location.origin}/success`,
+    cancelUrl: `${window.location.origin}/cancel`,
+  };
+
+  const redirectToCheckout = async () => {
+    const stripe = await getStripe();
+    const { error } = await stripe.redirectToCheckout(checkoutOption);
+    setError(error);
+  };
   const navigation = useLocation()
   const navigate = useNavigate()
   const [number, setNumber] = useState(0);
+  const [error, setError] = useState(null);
   const [productDetailsssss, setProductDetail] = useState({});
   const dispatch = useDispatch()
   const { id } = useParams();
-  console.log(id,'id-param')
   const { productDetail} = useSelector((state) => state.product);
 
   useEffect(() => {
@@ -51,8 +79,7 @@ export const ProductDetails = ({setState}) => {
   return (
     <>
       <Grid item xs={12} md={12} sx={{ margin: '75px' }}><Breadcrumb navigation={navigation} /></Grid>
-      <Grid container>
-     
+      <Grid container> 
         <Grid item xs={12} md={6} sm={6}>
          {images && <MagnifyImg images={images[number]} /> }
             <List className='unorderList'>
@@ -62,7 +89,6 @@ export const ProductDetails = ({setState}) => {
                 <img src={item} width='70' height='70' className='listImg' onClick={() => handleTab(index)}/>
               </ListItem>
               )
-
             })}
           </List> 
         </Grid>
@@ -90,13 +116,11 @@ export const ProductDetails = ({setState}) => {
             </Typography>
             <Box>
               <Button variant='outlined' className='addcart1' onClick={() => addCart(productDetail)}>Add to cart</Button>
-              <Button variant='outlined' className='placeOrder' onClick={placeOrder}>Place Order</Button>
+              <Button variant='outlined' className='placeOrder' onClick={redirectToCheckout}>Place Order</Button>
             </Box>
           </div>
 
-
           <Box className='emiDiv'>
-
             <Typography variant='subtitle1' gutterBottom>
               <span style={{ fontWeight: 600 }}>EMI</span> starts at ₹1,483. No Cost EMI available.
             </Typography>

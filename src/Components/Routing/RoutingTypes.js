@@ -9,7 +9,6 @@ import { Category } from '../Category/Category';
 import { ProductDetails } from '../Products/ProductDetails';
 import { Address } from '../Profile/Address';
 import { ForgetPassword } from '../Forget-password/ForgetPassword';
-import {  StripePayment } from '../Stripe/StripePayment';
 import { Success } from '../Stripe/Success';
 import { Cancel } from '../Stripe/Cancel';
   export const publicRoutes = [
@@ -22,7 +21,6 @@ import { Cancel } from '../Stripe/Cancel';
     { path: Path.CATEGORY_PAGE, Component: Category },
     { path: Path.ADDRESS_PAGE, Component: Address },
     { path: Path.FORGET_PASSWORD, Component: ForgetPassword },
-    { path: Path.STRIPE_PAYMENT, Component: StripePayment },
     { path: Path.STRIPE_SUCCSESS, Component: Success },
     { path: Path.STRIPE_CANCEL, Component: Cancel },
    

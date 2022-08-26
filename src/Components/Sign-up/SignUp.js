@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Button from "@material-ui/core/Button";
@@ -21,7 +21,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../../Firebase/Firebase";
 import { Alert } from "@material-ui/lab";
 import { DASHBOARD_PAGE } from "../Routing/RoutePath";
-import { collection, addDoc, doc,setDoc, serverTimestamp } from "firebase/firestore";
+import { doc,setDoc, serverTimestamp } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
@@ -58,10 +58,6 @@ const validationSchema = yup.object({
 export const SignUp = () => {
   const [error, setError] = useState();
   const navigate = useNavigate();
-  const photoURL = useSelector((state) => state.product);
-  let url = photoURL.photo;
-
-
   const formik = useFormik({
     initialValues: {
       name: null,

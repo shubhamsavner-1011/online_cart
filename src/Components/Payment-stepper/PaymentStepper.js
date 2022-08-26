@@ -8,21 +8,23 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import "../Cart/Cart.css";
-import { Address } from "../Profile/Address";
-import StripeCheckout from "react-stripe-checkout";
 import { useNavigate } from "react-router-dom";
-import {
-  addDoc,
-  collection,
-  doc,
-  Firestore,
-  getDoc,
-  getDocs,
-  orderBy,
-  setDoc,
-} from "firebase/firestore";
-import { db, storage, auth } from "../../Firebase/Firebase";
-import { ADDRESS_PAGE,STRIPE_PAYMENT } from "../Routing/RoutePath";
+import {collection,getDocs,} from "firebase/firestore";
+import { db} from "../../Firebase/Firebase";
+import { ADDRESS_PAGE} from "../Routing/RoutePath";
+import { loadStripe } from "@stripe/stripe-js";
+import "../Stripe/Stripe.css";
+import { useSelector } from "react-redux";
+import { STRIPE_KEY } from "../../service";
+
+
+let stripePromise;
+const getStripe = () => {
+  if (!stripePromise) {
+    stripePromise = loadStripe(STRIPE_KEY);
+  }
+  return stripePromise;
+};
 
 const steps = [
   {
@@ -34,6 +36,26 @@ const steps = [
 ];
 
 export const PaymentStepper = ({ setState }) => {
+  const [error, setError] = useState(null);
+  const totalAmount = useSelector((state) => state.cart.total);
+
+  const item = {
+    price: "price_1LaG9USC6LWxRL4UxfT4d144",
+    quantity: 1,
+  };
+  const checkoutOption = {
+    lineItems: [item],
+    mode: "payment",
+    successUrl: `${window.location.origin}/success`,
+    cancelUrl: `${window.location.origin}/cancel`,
+  };
+
+  const redirectToCheckout = async () => {
+    const stripe = await getStripe();
+    const { error } = await stripe.redirectToCheckout(checkoutOption);
+    setError(error);
+  };
+
   const navigate = useNavigate();
   const [address, setAddress] = useState();
   const [toggle, setToggle] = useState(true);
@@ -54,11 +76,6 @@ export const PaymentStepper = ({ setState }) => {
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const placeOrder = () => {
-    navigate(STRIPE_PAYMENT)
-    setState("right", false);
   };
 
   const handleBack = () => {
@@ -139,7 +156,7 @@ export const PaymentStepper = ({ setState }) => {
                         variant="outlined"
                         disabled={index === 0}
                         onClick={handleBack}
-                        sx={{ mt: 1, mr: 1, ml: 1 }}
+                        sx={{ mr: 1, ml: 1 }}
                       >
                         Back
                       </Button>
@@ -156,12 +173,12 @@ export const PaymentStepper = ({ setState }) => {
                       <Button
                         variant="outlined"
                         className="confirm"
-                        onClick={placeOrder}
+                        onClick={redirectToCheckout}
                         sx={{ mt: 1, mr: 3 }}
                        
                       >
                         {index === steps.length - 1
-                          ? "Place Order"
+                          ? `PAY $ ${totalAmount}`  
                           : "Continue"}
                       </Button>
 
@@ -170,7 +187,7 @@ export const PaymentStepper = ({ setState }) => {
                         variant="outlined"
                         disabled={index === 0}
                         onClick={handleBack}
-                        sx={{ mt: 1, mr: 1, ml: 1 }}
+                        sx={{mr: 1, ml: 1 }}
                       >
                         Back
                       </Button>

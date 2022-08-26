@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux';
 import { add} from '../../Store/CartSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { PRODUCT_DETAIL_PAGE } from '../Routing/RoutePath';
-import { productDetails } from '../../Store/ProductDetailSlice';
 
 const useStyles = makeStyles({
     root: {
@@ -23,13 +22,12 @@ const useStyles = makeStyles({
 export const Cards = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {image,category,title,price,brand,description,itemImg} = props
+  const {image,category,title,price,brand} = props
   const classes = useStyles();
   const addCart = (id) =>{
       dispatch(add(id))
   }
   const prouductDetail = (id) =>{
-  //  dispatch(productDetails(id))
    navigate(PRODUCT_DETAIL_PAGE+id.id);
   }
   return (

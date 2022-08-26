@@ -8,7 +8,6 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import "../Sign-up/Signup.css";
 import {Link, useNavigate } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
 import "../Login/Login.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,7 +24,6 @@ const validationSchema = yup.object({
 
 export const ForgetPassword = () => {
   const [error, setError] = useState();
-  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -42,7 +40,7 @@ export const ForgetPassword = () => {
           .catch((error) => {
             const errorMessage = error.message;
             const errorCode = error.code;
-            setError(errorCode)
+            setError(errorMessage)
           });
     },
   });
@@ -50,7 +48,6 @@ export const ForgetPassword = () => {
   return (
     <>
       <ToastContainer />
-
       <div className="login">
         <Box
           sx={{
@@ -78,7 +75,6 @@ export const ForgetPassword = () => {
                 error={formik.touched.email && Boolean(formik.errors.email)}
                 helpertext={formik.touched.email && formik.errors.email}
               />
-
               {error ? (
                 <Alert className="alert" variant="outlined" severity="error">
                   {error.split("auth/")} !!
@@ -91,7 +87,6 @@ export const ForgetPassword = () => {
                   FORGET PASSWORD
                 </Button>
               </div>
-         
             </form>
           </Paper>
         </Box>

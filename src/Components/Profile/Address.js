@@ -26,13 +26,6 @@ import { toast } from 'react-toastify';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
-//   https://countriesnow.space/api/v0.1/countries/population/cities
-
-
-
-
-
-  const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 const validationSchema = yup.object({
     address: yup
     .string('Enter your address').nullable(true)
@@ -79,11 +72,8 @@ export const Address = () => {
                   state: state,
                   locality: locality,
                   terms: terms,
-                 
-                //   createdAt: serverTimestamp()
                 };
                 setDoc(doc(db, 'address', uid.uid) , data).then(() => {
-                    // toast.success("Address Updated!!", { autoClose: 2000 });
                     navigate(PROFILE_PAGE)
                 }).catch(e => {
                     setError(e.message)
@@ -91,11 +81,8 @@ export const Address = () => {
               } catch (e) {
                 setError(e.message)
               }
-
             });
-            
-        }
-       
+        }  
     });
   return (
     <div>
@@ -110,7 +97,6 @@ export const Address = () => {
         }}
         className='formMui'
     >
-
         <Paper elevation={3} >
             <h3 className='ProductHead'>ADDRESS</h3>
             <form onSubmit={formik.handleSubmit} className="formMain">
@@ -136,9 +122,6 @@ export const Address = () => {
                     error={formik.touched.locality && Boolean(formik.errors.locality)}
                     helperText={formik.touched.locality && formik.errors.locality}
                 />
-            
-
-                
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
                         <FormControl fullWidth>

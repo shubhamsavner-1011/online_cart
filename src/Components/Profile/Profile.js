@@ -6,10 +6,9 @@ import Stack from "@mui/material/Stack";
 import { Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import "../Profile/profile.css";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Address } from "./Address";
+import { Link, useNavigate } from "react-router-dom";
 import { ADDRESS_PAGE, DASHBOARD_PAGE, PROFILE_PAGE } from "../Routing/RoutePath";
-import { addDoc, collection, doc, Firestore, getDoc, getDocs, orderBy, setDoc } from "firebase/firestore";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { db, storage ,auth} from "../../Firebase/Firebase";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -32,35 +31,6 @@ const useStyles = makeStyles({
     width: '100%',
   },
 });
-
-const StyledBadge = styled(Badge)(({ theme }) => ({
-  "& .MuiBadge-badge": {
-    backgroundColor: "#44b700",
-    color: "#44b700",
-    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-    "&::after": {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      borderRadius: "50%",
-      animation: "ripple 1.2s infinite ease-in-out",
-      border: "1px solid currentColor",
-      content: '""',
-    },
-  },
-  "@keyframes ripple": {
-    "0%": {
-      transform: "scale(.8)",
-      opacity: 1,
-    },
-    "100%": {
-      transform: "scale(2.4)",
-      opacity: 0,
-    },
-  },
-}));
 
 const SmallAvatar = styled(Avatar)(({ theme }) => ({
   width: 22,
@@ -98,19 +68,13 @@ export const Profile = () => {
 
       const userProfile = await getDocs(collection(db, "images"));
       setProfile(userProfile.docs.map((doc) => ({ id:doc.id ,...doc.data() })));
-
     };
     getData();
   }, [toggle]);
-  
-
- 
-
    const handleChange = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
     }
-
   };
 
   const deleteCurrentUser = async() =>{
@@ -121,10 +85,8 @@ export const Profile = () => {
       localStorage.clear()
       navigate(DASHBOARD_PAGE)
     }).catch(e=>{setError(e.message,'error')})
-  
   }
   
-
   const onSubmit = () =>{
     const imageRef = ref(storage, 'image')
     uploadBytes(imageRef,images).then(()=>{
@@ -187,8 +149,6 @@ export const Profile = () => {
         </div>
           <Box>
             <h3 className="ProductHead">Profile</h3>
-
-
             <Stack
               direction="row"
               spacing={2}

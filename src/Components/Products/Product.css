@@ -45,7 +45,7 @@ border: 1px solid black !important;
   
   .image {
     flex: 0 0 100%;
-    z-index: 9999;
+    z-index: 1;
     border-radius: 25px;
   }
   

@@ -51,9 +51,8 @@ export const SectionFirst = () => {
       className='ios'
     />
     </Box>
-        </Grid>
-
-      </Grid>
+    </Grid>
+    </Grid>
     </div>
   )
 }

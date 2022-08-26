@@ -4,13 +4,11 @@ import '../Home/Home.css'
 import { ProductSlider } from '../Slider/ProductSlider'
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
-import CheckIcon from '@material-ui/icons/Check';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import { category, CategoryList } from './CategoryList';
+import {CategoryList } from './CategoryList';
 import { SectionFirst } from './SectionFirst';
 import Breadcrumb  from '../Breadcumb/Breadcrumb';
 import {useLocation} from 'react-router-dom'
-import { CartDrawer } from '../Cart/CartDrawer';
 import { TrendingCaraousel } from './TrendingCaraousel';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +27,7 @@ export const Home = (props) => {
     <>
     <Grid item xs={12} md={12} className='breadDiv'><Breadcrumb navigation={navigation}/></Grid> 
  
-    <Grid container  sx={{marginTop:'10px'}}>
+    <Grid container  sx={{marginTop:'10px',justifyContent:'start'}}>
     <Grid item xs={12} md={3} className={classes.root}>
     {localStorage.getItem('token')?
       (
@@ -63,8 +61,6 @@ export const Home = (props) => {
       </Grid>
       </Grid>
        <SectionFirst/> 
-      
-
     </>
 
   )

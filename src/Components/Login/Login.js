@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Button from '@material-ui/core/Button';
@@ -11,10 +11,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../Firebase/Firebase';
 import { Alert } from '@material-ui/lab';
-import { CART_PAGE, DASHBOARD_PAGE, FORGET_PASSWORD, LOGIN_PAGE } from '../Routing/RoutePath';
+import { CART_PAGE, DASHBOARD_PAGE, FORGET_PASSWORD} from '../Routing/RoutePath';
 import { useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import UserSlice, { login } from '../../Store/UserSlice';
 import '../Login/Login.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -35,7 +34,6 @@ const validationSchema = yup.object({
 
 
 export const Login = ({ setUserName }) => {
-    const dispatch = useDispatch()
     const [searchParams] = useSearchParams();
     const isLogin = searchParams.get('redirectURL');
     const [error, setError] = useState()
@@ -49,7 +47,6 @@ export const Login = ({ setUserName }) => {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-
             signInWithEmailAndPassword(auth, values.email, values.password)
                 .then(async (userCredential) => {
                     localStorage.setItem('token', userCredential._tokenResponse.idToken)

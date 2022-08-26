@@ -16,13 +16,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import '../Cart/Cart.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-import Breadcrumb from '../Breadcumb/Breadcrumb';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ADDRESS_PAGE } from '../Routing/RoutePath';
 import { PaymentStepper } from '../Payment-stepper/PaymentStepper';
-
-
-
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -48,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export const Cart = ({setState}) => {
-  const navigate = useNavigate()
   const [buy,setBuy] = useState(false)
   const classes = useStyles();
   const theme = useTheme();
@@ -102,24 +95,22 @@ export const Cart = ({setState}) => {
               <img src={cart} alt='cart' className='empty' />
             </Grid>
           </Grid>
-
           :
           <div>
           {buy ? <PaymentStepper setState={setState}/> : 
-            product.map((item) => {
+          <>
+            {product.map((item,index) => {
               return <>
-                <Grid container style={{marginTop:'70px'}}>
+                <Grid container key={index} style={{marginTop:'70px'}}>
                   <Grid item xs={12} md={12}>
                     <Card key={item.id} sx={{ display: 'flex', padding: '20px 30px', margin: '20px 10px' }}>
                       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-
                         <CardMedia
                           component="img"
                           sx={{ width: 151 }}
                           image={item.image}
                           alt="Live from space album cover"
                         />
-
                         <CardContent >
                           {/*   */}  <Typography component="div" variant="h5">
                             {`${item.title.slice(0, 20)}...`}
@@ -131,8 +122,6 @@ export const Cart = ({setState}) => {
                           <Typography variant="subtitle1" color="text.secondary" component="div">
                             {`$ ${parseFloat(item.price * item.cartQuantity).toFixed(2)}`}
                           </Typography>
-
-
                           <div className='counting'>
                             <Button variant="outlined" color="primary" className='incrementBtn' onClick={() => dispatch(increment(item.id))}>
                               <AddIcon />
@@ -146,16 +135,13 @@ export const Cart = ({setState}) => {
                             <Button variant='outlined' className='cancel' onClick={() => handleRemove(item.id)}>Remove</Button>
                           </CardActions>
                         </CardContent>
-
                       </Box>
                     </Card>
                   </Grid>
                 </Grid>
 
               </>
-            })
-          }
-
+            })}
             <div className='footer'>
               <Modal
                 open={open}
@@ -171,10 +157,10 @@ export const Cart = ({setState}) => {
             <Box style={{textAlign:'center'}}>
             <Typography variant='body2' className='total'>Total Amount : $ {parseFloat(totalAmount).toFixed(2)}</Typography>
             </Box>
-            </div>
-        
+            </>
+          }
+            </div>      
         }
-
       </div>
     </>
   )

@@ -8,22 +8,16 @@ import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { Link, useNavigate } from 'react-router-dom'
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-import { useSelector, useDispatch } from 'react-redux';
-import { login, logout, selectUser } from '../../Store/UserSlice';
+import { useSelector} from 'react-redux';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../Firebase/Firebase';
 import { Divider } from '@material-ui/core';
 import * as PATH from '../Routing/RoutePath';
 import { CartDrawer } from '../Cart/CartDrawer';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -76,46 +70,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
-export default function Header({ setUserName,  handleOpen}) {
+export default function Header({ setUserName}) {
 
   const navigate = useNavigate()
   const classes = useStyles();
@@ -164,11 +120,8 @@ export default function Header({ setUserName,  handleOpen}) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-
-
       {localStorage.getItem('token') ?
         <div>
-        
        <MenuItem onClick={handleMenuClose}>
        <Link to={PATH.CART_PAGE}  className={classes.link3}> Cart </Link>
        </MenuItem>
@@ -272,8 +225,6 @@ export default function Header({ setUserName,  handleOpen}) {
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
-         
-
             <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}

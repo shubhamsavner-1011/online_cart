@@ -1,7 +1,7 @@
 import React from 'react'
 import { Cards } from '../Card/Cards'
 import axios from 'axios';
-import react, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -48,7 +48,7 @@ export const Category = () => {
         <>
         <Grid item xs={12} md={12} sx={{margin:'75px'}}><Breadcrumb navigation={navigation}/></Grid> 
         <div className={classes.root}>
-        <ButtonGroup color="#fff" aria-label="outlined primary button group" className='btnGroup'>
+        <ButtonGroup style={{color:"#fff"}} aria-label="outlined primary button group" className='btnGroup'>
         <Button onClick={()=>setUpdateData(data)}>ALL</Button>
           <Button onClick={()=>filterResult("laptops")}>LAPTOP</Button>
           <Button onClick={()=>filterResult("smartphones")}>SMARTPHONE</Button>
@@ -58,9 +58,9 @@ export const Category = () => {
         </ButtonGroup>
         </div>
             <div className='ProductHead'>CATEGORIES</div>
-            <Grid className='cardDiv' contanier>     
+            <Grid className='cardDiv' contanier="true">     
                     {updateData && updateData.map(item => {
-                    return <Cards image={item.thumbnail} 
+                    return <Cards key={item.id} image={item.thumbnail} 
                     category={item.category} 
                     title={`${item.title.substring(0,22)}...`} 
                     price={item.price} 

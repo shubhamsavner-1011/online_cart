@@ -1,6 +1,6 @@
 import React from "react";
 import ReactImageMagnify from "react-image-magnify";
-import bed from '../../images/bed.jpg'
+
 
 export const MagnifyImg = ({images}) => {
   return (

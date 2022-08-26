@@ -5,7 +5,7 @@ import { add } from '../../Store/CartSlice';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import '../Products/Product.css'
-import { Box, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { Cards } from '../Card/Cards';
 import Breadcrumb  from '../Breadcumb/Breadcrumb';
 import { useLocation } from 'react-router-dom';
@@ -15,7 +15,6 @@ export const Products = () => {
   const  navigation= useLocation()
   const [product, setProduct] = useState()
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.product);
 
   useEffect(() => {
     const FetchProduct = async () => {
@@ -28,11 +27,6 @@ export const Products = () => {
     }
     FetchProduct();
   }, [])
-
-  const handleAdd = (element) => {
-    dispatch(add(element))
-  }
-
  
   {
     if (!product) {
@@ -51,11 +45,11 @@ export const Products = () => {
         <Grid item xs={12} md={12} sx={{margin:'75px'}}><Breadcrumb navigation={navigation}/></Grid> 
         <div className='ProductHead'>PRODUCTS</div>
 
-        <Grid className='cardDiv' contanier>
-        {product && product.map(item => {
+        <Grid className='cardDiv' contanier="true">
+        {product && product?.map(item => {
             return(
             <>
-            <Cards image={item.thumbnail} 
+            <Cards key={item.id}  image={item.thumbnail} 
             category={item.category} 
             title={`${item.title.substring(0,25)}...`}
             price={item.price} 
@@ -63,7 +57,6 @@ export const Products = () => {
             id={item.id}
             description={item.description}
             itemImg={item.images}
-            key={item}
             />
             </>
             )

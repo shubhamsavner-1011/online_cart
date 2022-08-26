@@ -27,9 +27,9 @@ const pathname = navigation.pathname.split("/").filter(x => x);
         const isLast = index === pathname.length-1;
         const route = `/${pathname.slice(0,index+1).join("/")}`;
         return (
-        <>
+          <div>
         {isLast?
-        <Typography> {path}</Typography>
+        <Typography key={path.toString()}> {path}</Typography>
         :
         <Link
         underline="hover"
@@ -41,7 +41,7 @@ const pathname = navigation.pathname.split("/").filter(x => x);
       </Link>
         }
         
-      </>
+      </div>
       )})}
       
     </Breadcrumbs>

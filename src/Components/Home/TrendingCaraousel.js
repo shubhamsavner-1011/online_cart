@@ -41,21 +41,6 @@ let itemsStyle = {
   borderRadius: "2px"
 };
 
-let textBoxStyle = {
-  width: "60%",
-  background: "rgba(155, 108, 27, 0.5)",
-  top: "80%",
-  textAlign: "right",
-  color: "#ffffff"
-};
-
-let textBoxStyle2 = {
-  width: "30%",
-  top: "30%",
-  color: "#ffffff",
-  marginRight: "0%"
-};
-// margin to tune the textbox
 let buttonSetting = {
   placeOn: "middle-outside",
   style: {

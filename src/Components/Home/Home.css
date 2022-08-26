@@ -3,7 +3,6 @@
 .homeHead{
     margin: 30px ;
     font-weight: 600;
-    font-family: roboto;
     font-size: 20px;
     color: #333;
     text-transform: uppercase;
@@ -60,7 +59,6 @@ margin-left: 10px !important;
     margin-top:17px  !important;
     }
     .sectionSubHead{font-size: 18px !important;margin-top: 40px !important;}
-    .ios{width: 165px !important;margin-top: 30px;}
-    .android{width: 189px !important;height: 79px !important;}
     body{margin: 0 !important;}
+    .sectionSubHead,.StoreBtn{display: none;}
  }

@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
-import { Carousel } from 'react-responsive-carousel';
 import poster from '../../images/discount.jpg';
 import sale from '../../images/sale.jpg'
 import Slider from "react-slick";
